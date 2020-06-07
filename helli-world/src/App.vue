@@ -8,69 +8,68 @@
     <el-main class="main">
       <el-tabs type="border-card">
         <el-tab-pane label="開始">
-          <el-collapse v-model="activeName" accordion>
-            <el-collapse-item title="查時刻車次" name="1">
-              <div>here查時刻車次</div>
-            </el-collapse-item>
-            <el-collapse-item title="查車站" name="2" disabled>
-              <div>here查車站</div>
-            </el-collapse-item>
-            <el-collapse-item title="查票價" name="3" disabled>
-              <div>here查票價</div>
-            </el-collapse-item>
-            <el-collapse-item title="暫存行程" name="4">
-              <div>描述：可以查看已經查詢好的車次資料</div>
-            </el-collapse-item>
-            <el-collapse-item title="購買車票" name="5">
-              <div>here購買車票</div>
-            </el-collapse-item>
-          </el-collapse>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">查時刻車次</div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">查車站</div>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">查票價</div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">暫存行程</div>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="24">
+              <div class="grid-content bg-purple">購買車票</div>
+            </el-col>
+          </el-row>
         </el-tab-pane>
         <el-tab-pane label="搭乘">
-          <el-collapse v-model="activeName2" accordion>
-            <el-collapse-item title="取票" name="1" disabled>
-              <div>7/20 台北 → 左營</div>
-              <div>7/31 左營 → 烏日</div>
-            </el-collapse-item>
-            <el-collapse-item title="傳送取票序號" name="2" disabled>
-              <div>簡訊發送</div>
-              <div>email發送</div>
-            </el-collapse-item>
-            <el-collapse-item title="乘車驗票" name="3" disabled>
-              <div>6/25 台北 → 烏日</div>
-              <div>6/29 烏日 → 左營</div>
-            </el-collapse-item>
-            <el-collapse-item title="設定到站提醒" name="4">
-              <div>選擇日期</div>
-              <div>響鈴時間</div>
-              <div>設定</div>
-            </el-collapse-item>
-          </el-collapse>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">取票</div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">傳送取票序號</div>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">乘車驗票</div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">設定到站提醒</div>
+            </el-col>
+          </el-row>
         </el-tab-pane>
         <el-tab-pane label="搭乘結束">
-          <el-collapse v-model="activeName3" accordion>
-            <el-collapse-item title="查快捷公車" name="1">
-              <div>選擇出發站</div>
-              <div>時刻表</div>
-            </el-collapse-item>
-            <el-collapse-item title="查轉乘資訊" name="2">
-              <div>轉乘台鐵</div>
-              <div>轉乘公車</div>
-            </el-collapse-item>
-            <el-collapse-item title="查搭乘紀錄" name="3">
-              <div>5/25 台北 → 烏日</div>
-              <div>5/29 烏日 → 左營</div>
-            </el-collapse-item>
-            <el-collapse-item title="申請乘車證明" name="4" disabled>
-              <div>選擇車票</div>
-              <div>送出申請</div>
-            </el-collapse-item>
-            <el-collapse-item title="設定常用行程" name="5">
-              <div>台中出差</div>
-              <div>高雄早9上課</div>
-              <div>新增常用行程</div>
-            </el-collapse-item>
-          </el-collapse>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">查快捷公車</div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">查轉乘資訊</div>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">查搭乘紀錄</div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">申請乘車證明</div>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="24">
+              <div class="grid-content bg-purple">設定常用行程</div>
+            </el-col>
+          </el-row>
         </el-tab-pane>
       </el-tabs>
     </el-main>
@@ -87,18 +86,13 @@
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
   components: {},
-  data () {
-    return {
-      // activeName: "1",
-      // activeName2: "1",
-      // activeName3: "1",
-    }
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -115,26 +109,45 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #409EFF;
+  background-color: #409eff;
   font-size: 20px;
   letter-spacing: 4px;
-  color: #EEF4ED;
+  color: #eef4ed;
 }
 .el-icon-more {
   padding: 8px 6px;
   cursor: pointer;
 }
 
+.el-row {
+  margin-bottom: 20px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.el-col {
+  border-radius: 4px;
+}
+.bg-purple {
+  background: #e5e9f2;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+  text-align: center;
+  padding: 30px 0;
+}
+
 .footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0B2545;
-  color: #EEF4ED;
+  background-color: #0b2545;
+  color: #eef4ed;
   a {
     font-size: 14px;
     letter-spacing: 4px;
-    color: #EEF4ED;
+    color: #eef4ed;
   }
   span {
     padding: 8px;
@@ -143,7 +156,7 @@ export default {
 
 @media screen and (max-width: 375px) {
   .header {
-    background-color: #E38F24;
+    background-color: #e38f24;
   }
 }
 </style>

@@ -10,14 +10,8 @@
         <el-tab-pane label="開始">
           <el-collapse v-model="activeName" accordion>
             <el-collapse-item title="查時刻車次" name="1">
-              <el-form
-                :model="ruleForm"
-                :rules="rules"
-                ref="ruleForm"
-                label-width="100px"
-                class="demo-ruleForm"
-              >
-                <el-form-item label="出發站" prop="regionFrom">
+              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+                <el-form-item prop="regionFrom">
                   <el-select v-model="ruleForm.regionFrom" placeholder="出發站">
                     <el-option label="南港站" value="Nangang"></el-option>
                     <el-option label="台北站" value="Taipei"></el-option>
@@ -33,10 +27,10 @@
                     <el-option label="左營站" value="Zuoying"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="起訖站互換">
-                  <el-button type="primary" icon="el-icon-refresh">起訖站互換</el-button>
+                <el-form-item>
+                  <el-button type="primary" icon="el-icon-refresh"></el-button>
                 </el-form-item>
-                <el-form-item label="到達站" prop="regionTo">
+                <el-form-item prop="regionTo">
                   <el-select v-model="ruleForm.regionTo" placeholder="到達站">
                     <el-option label="南港站" value="Nangang"></el-option>
                     <el-option label="台北站" value="Taipei"></el-option>
@@ -52,56 +46,37 @@
                     <el-option label="左營站" value="Zuoying"></el-option>
                   </el-select>
                 </el-form-item>
-
-                <el-form-item label="出發時間" required>
+                <el-form-item required>
                   <el-col :span="11">
                     <el-form-item prop="startTime">
                       <el-time-picker
                         type="fixed-time"
                         placeholder="出發時間"
                         v-model="ruleForm.startTime"
-                        style="width: 100%;"
+                        style="width: 217.5px;"
                       ></el-time-picker>
                     </el-form-item>
                   </el-col>
                 </el-form-item>
-                <el-form-item label="到達時間" required>
-                  <el-col :span="11">
-                    <el-form-item prop="endTime">
-                      <el-time-picker
-                        type="fixed-time"
-                        placeholder="到達時間"
-                        v-model="ruleForm.endTime"
-                        style="width: 100%;"
-                      ></el-time-picker>
-                    </el-form-item>
-                  </el-col>
-                </el-form-item>
-                <el-form-item label="出發日期" required>
+                <el-form-item required>
                   <el-col :span="11">
                     <el-form-item prop="date1">
                       <el-date-picker
                         type="date"
                         placeholder="出發日期"
                         v-model="ruleForm.date1"
-                        style="width: 100%;"
+                        style="width: 217.5px;"
                       ></el-date-picker>
                     </el-form-item>
                   </el-col>
                 </el-form-item>
-                <el-form-item label="最短搭乘時間" prop="shortestTime">
+                <el-form-item label="依行車時間排序" prop="shortestTime">
                   <el-switch v-model="ruleForm.shortestTime"></el-switch>
-                </el-form-item>
-                <el-form-item label="購買回程票" prop="outbound">
-                  <el-switch v-model="ruleForm.outbound"></el-switch>
                 </el-form-item>
                 <div>
                   <el-button-group>
-                    <el-button @click="resetForm('ruleForm')">全部清除</el-button>
-                    <el-button type="primary" @click="submitForm('ruleForm')">
-                      下一步
-                      <i class="el-icon-arrow-right el-icon--right"></i>
-                    </el-button>
+                    <!-- <el-button @click="resetForm('ruleForm')">全部清除</el-button> -->
+                    <el-button type="primary" @click="submitForm('ruleForm')" icon="el-icon-search"></el-button>
                   </el-button-group>
                 </div>
                 <br />
@@ -113,10 +88,10 @@
                 class="demo-resultForm"
               >
                 <el-table :data="tableData" @row-click="getData" style="width: 100%">
-                  <el-table-column prop="trainNum" label="車次" width="50"></el-table-column>
-                  <el-table-column prop="resultStart" label="出發時間" width="70"></el-table-column>
-                  <el-table-column prop="resultEnd" label="到達時間" width="70"></el-table-column>
-                  <el-table-column prop="duration" label="行車時間" width="70"></el-table-column>
+                  <el-table-column prop="trainNum" label="車次"></el-table-column>
+                  <el-table-column prop="resultStart" label="出發時間"></el-table-column>
+                  <el-table-column prop="resultEnd" label="到達時間"></el-table-column>
+                  <el-table-column prop="duration" label="行車時間"></el-table-column>
                 </el-table>
                 <br />
                 <div>
@@ -124,14 +99,15 @@
                     <el-button
                       type="info"
                       @click="storeForm('ruleForm')"
-                      icon="el-icon-arrow-left"
-                    >暫存行程</el-button>
-                    <el-button @click="submitForm('ruleForm')">重新查詢</el-button>
+                      icon="el-icon-collection-tag"
+                    >暫存</el-button>
+                    <el-button @click="submitForm('ruleForm')" icon="el-icon-search"></el-button>
                     <!-- 重新查詢需注意要沿用舊的方法還是要做新的 -->
-                    <el-button type="primary" @click="submitForm('ruleForm')">
-                      下一步
-                      <i class="el-icon-arrow-right el-icon--right"></i>
-                    </el-button>
+                    <el-button
+                      type="primary"
+                      @click="submitForm('ruleForm')"
+                      icon="el-icon-bank-card"
+                    >購票</el-button>
                   </el-button-group>
                 </div>
                 <br />
@@ -226,23 +202,12 @@ export default {
         regionFrom: "",
         regionTo: "",
         startTime: "",
-        endTime: "",
-        date1: "",
-        shortestTime: false,
-        outbound: false
+        date1: ""
       },
       rules: {
         regionFrom: [{ required: true, message: " ", trigger: "change" }],
         regionTo: [{ required: true, message: " ", trigger: "change" }],
         startTime: [
-          {
-            type: "date",
-            required: true,
-            message: " ",
-            trigger: "change"
-          }
-        ],
-        endTime: [
           {
             type: "date",
             required: true,

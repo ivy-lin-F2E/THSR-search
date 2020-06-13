@@ -1,16 +1,16 @@
 <template>
   <div class="app">
-    <THSRSearch />
+    <Container />
   </div>
 </template>
 
 <script>
-import THSRSearch from "./components/THSRSearch";
+import Container from "./components/Container";
 
 export default {
   name: "App",
   components: {
-    THSRSearch
+    Container
   },
   data() {
     return {
@@ -111,34 +111,4 @@ export default {
   letter-spacing: 2px;
   text-decoration: none;
 }
-.app {
-  min-height: 100vh;
-}
-
-// .el-icon-more {
-//   padding: 8px 6px;
-//   cursor: pointer;
-// }
-
-// .footer {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: #0b2545;
-//   color: #eef4ed;
-//   a {
-//     font-size: 14px;
-//     letter-spacing: 4px;
-//     color: #eef4ed;
-//   }
-//   span {
-//     padding: 8px;
-//   }
-// }
-
-// @media screen and (max-width: 375px) {
-//   .header {
-//     background-color: #e38f24;
-//   }
-// }
 </style>

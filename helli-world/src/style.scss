@@ -32,3 +32,12 @@ html, body, a {
 .el-popover {
     padding: 0;
 }
+.el-table--border::after, .el-table--group::after, .el-table::before {
+    background-color: transparent;
+}
+.el-table td {
+    text-align: center;
+}
+.el-table th {
+    text-align: center;
+}

@@ -2,7 +2,27 @@
   <div>
     <el-header class="header">
       高鐵購GO!
-      <i class="el-icon-more"></i>
+      <el-popover placement="bottom">
+        <el-menu>
+          <el-menu-item index="1">
+            <i class="el-icon-user"></i>Log in / Log out
+          </el-menu-item>
+          <el-menu-item index="2">
+            <i class="el-icon-chat-line-round"></i>繁中 / EN
+          </el-menu-item>
+          <el-menu-item index="3">
+            <i class="el-icon-document"></i>使用教學
+          </el-menu-item>
+          <!-- </el-submenu> -->
+        </el-menu>
+        <el-button
+          type="warning"
+          icon="el-icon-more"
+          circle
+          slot="reference"
+          @click="visible = !visible"
+        ></el-button>
+      </el-popover>
     </el-header>
   </div>
 </template>
@@ -11,7 +31,11 @@
 export default {
   name: "header",
   components: {},
-  data() {},
+  data() {
+    return {
+      visible: false
+    };
+  },
   mounted() {},
   computed: {},
   methods: {}
@@ -19,17 +43,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #e38f24;
-  font-size: 20px;
-  letter-spacing: 4px;
-  color: #eef4ed;
-}
 .el-icon-more {
+  border: 1px dotted #000;
   padding: 8px 6px;
   cursor: pointer;
+}
+.el-button {
+  border: none;
+  background-color: transparent;
 }
 </style>

@@ -25,19 +25,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #0b2545;
+a {
+  font-size: 14px;
+  letter-spacing: 4px;
   color: #eef4ed;
-  a {
-    font-size: 14px;
-    letter-spacing: 4px;
-    color: #eef4ed;
-  }
-  span {
-    padding: 8px;
-  }
+}
+span {
+  padding: 8px;
+  font-size: 14px;
 }
 </style>

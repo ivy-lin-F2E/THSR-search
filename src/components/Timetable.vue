@@ -33,8 +33,6 @@
 </template>
 
 <script>
-// import axios from "axios";
-
 export default {
   name: "timetable",
   props: {
@@ -48,7 +46,6 @@ export default {
   },
   mounted() {
     // console.log(this.ruleForm);
-    // this.fetchAPI();
     this.tableData = [
       {
         trainNo: "0803",
@@ -84,17 +81,6 @@ export default {
   },
   computed: {},
   methods: {
-    // fetchAPI() {
-    //   this.getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
-    // },
-    // getData(from, to, date) {
-    //   axios({
-    //     methods: "GET",
-    //     url: `https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/${date}?$top=5&$format=JSON`
-    //   }).then(res => {
-    //     console.log(res.data);
-    //   });
-    // },
     handleCurrentChange(val) {
       this.currentRow = val;
       console.log(val);

@@ -65,7 +65,6 @@
                         placeholder="出發時間"
                         v-model="ruleForm.time"
                         :picker-options="{selectableRange: '06:00:00 - 23:59:59'}"
-                        value-format="HH:mm"
                       ></el-time-picker>
                     </el-form-item>
                   </div>
@@ -73,18 +72,17 @@
                 <el-col :xs="24" :sm="10" :md="5">
                   <div class="col bg-purple-light">
                     <el-form-item prop="date">
-                      <el-date-picker
-                        type="date"
-                        placeholder="出發日期"
-                        v-model="ruleForm.date"
-                        value-format="yyyy-MM-dd"
-                      ></el-date-picker>
+                      <el-date-picker type="date" placeholder="出發日期" v-model="ruleForm.date"></el-date-picker>
                     </el-form-item>
                   </div>
                 </el-col>
                 <el-col :xs="24" :sm="4" :md="2">
                   <div class="col bg-purple">
-                    <el-button type="primary" @click="submitForm('ruleForm')" icon="el-icon-search"></el-button>
+                    <el-button
+                      type="primary"
+                      @click="submitForm('ruleForm');fetchAPI();getData();"
+                      icon="el-icon-search"
+                    ></el-button>
                   </div>
                 </el-col>
               </el-row>
@@ -162,10 +160,10 @@ export default {
       drawersaved: false,
       drawerticketing: false,
       ruleForm: {
-        from: "0990",
-        to: "1040",
-        time: "12:00",
-        date: "2020-06-30"
+        from: "",
+        to: "",
+        time: "",
+        date: ""
       },
       rules: {
         from: [{ required: true, message: " ", trigger: "change" }],
@@ -180,26 +178,14 @@ export default {
     };
   },
   mounted() {
-    this.fetchAPI();
+    // this.fetchAPI();
   },
   computed: {},
   methods: {
     changeFromTo() {
       console.log("change");
     },
-    fetchAPI() {
-      this.getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
-    },
-    getData(from, to, date) {
-      axios({
-        methods: "GET",
-        url: `https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/${date}?$top=5&$format=JSON`
-      }).then(res => {
-        console.log(res.data);
-      });
-    },
     submitForm(TimetableSearch) {
-      console.log(this.ruleForm.date, this.ruleForm.time);
       this.$refs[TimetableSearch].validate(valid => {
         if (valid) {
           alert("submit!");
@@ -208,6 +194,20 @@ export default {
           console.log("error submit!!");
           return false;
         }
+      });
+    },
+    fetchAPI() {
+      this.getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
+    },
+    getData(from, to, date) {
+      console.log("getData", from, to, date);
+      axios({
+        methods: "GET",
+        // data格式待調整
+        // https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/${date}?$format=JSON
+        url: `https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/2020-06-30?$format=JSON`
+      }).then(res => {
+        console.log(res.data);
       });
     }
   }

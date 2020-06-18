@@ -65,7 +65,7 @@
                         placeholder="出發時間"
                         v-model="ruleForm.time"
                         :picker-options="{selectableRange: '06:00:00 - 23:59:59'}"
-                        value-format="yyyy-MM-dd"
+                        value-format="HH:mm"
                         @change="setFormat"
                       ></el-time-picker>
                     </el-form-item>

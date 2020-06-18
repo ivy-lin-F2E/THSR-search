@@ -66,7 +66,7 @@
                         v-model="ruleForm.time"
                         :picker-options="{selectableRange: '06:00:00 - 23:59:59'}"
                         value-format="HH:mm"
-                        @change="setFormat"
+                        @change="setTimeFormat"
                       ></el-time-picker>
                     </el-form-item>
                   </div>
@@ -79,7 +79,7 @@
                         placeholder="出發日期"
                         v-model="ruleForm.date"
                         value-format="yyyy-MM-dd"
-                        @change="setFormat"
+                        @change="setDateFormat"
                       ></el-date-picker>
                     </el-form-item>
                   </div>
@@ -189,9 +189,13 @@ export default {
     changeFromTo() {
       console.log("change");
     },
-    setFormat(val) {
+    setTimeFormat(val) {
+      this.ruleForm.time = val;
+      console.log("time", val);
+    },
+    setDateFormat(val) {
       this.ruleForm.date = val;
-      console.log("val", val);
+      console.log("date", val);
     },
     submitForm(TimetableSearch) {
       this.$refs[TimetableSearch].validate(valid => {

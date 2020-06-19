@@ -191,7 +191,11 @@ export default {
   computed: {},
   methods: {
     changeFromTo() {
-      console.log("change");
+      const resFrom = this.ruleForm.to;
+      const resTo = this.ruleForm.from;
+      this.ruleForm.from = resFrom;
+      this.ruleForm.to = resTo;
+      console.log(this.ruleForm);
     },
     setTimeFormat(val) {
       this.ruleForm.time = val;

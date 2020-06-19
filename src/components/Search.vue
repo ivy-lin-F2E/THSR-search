@@ -246,9 +246,24 @@ export default {
       const result = this.newArray.filter(item => {
         return item.DepTime >= this.ruleForm.time;
       });
-      console.log("filterForm", result);
+
       // sort排序
+      result.sort(function(a, b) {
+        var DepTimeA = a.DepTime.toUpperCase();
+        var DepTimeB = b.DepTime.toUpperCase();
+        if (DepTimeA < DepTimeB) {
+          return -1;
+        }
+        if (DepTimeA > DepTimeB) {
+          return 1;
+        }
+        return 0;
+      });
+
       // splice(5)只保留top 5 ，第6筆(含)以後刪除((即刪除index5以後的資料))
+      result.splice(5);
+      this.filterData = result;
+      console.log(this.filterData);
     }
   }
 };

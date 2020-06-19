@@ -180,7 +180,8 @@ export default {
         date: [{ required: true, message: " " }]
       },
       resData: [],
-      newArray: []
+      newArray: [],
+      filterData: []
     };
   },
   mounted() {

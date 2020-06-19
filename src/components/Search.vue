@@ -88,7 +88,7 @@
                   <div class="col bg-purple">
                     <el-button
                       type="primary"
-                      @click="submitForm('ruleForm');fetchAPI();getData();"
+                      @click="submitForm('ruleForm');fetchAPI();getData();getNewArray();filterForm();"
                       icon="el-icon-search"
                     ></el-button>
                   </div>
@@ -178,11 +178,14 @@ export default {
         to: [{ required: true, message: " ", trigger: "change" }],
         time: [{ required: true, message: " " }],
         date: [{ required: true, message: " " }]
-      }
+      },
+      resData: [],
+      newArray: []
     };
   },
   mounted() {
-    // this.fetchAPI();
+    this.fetchAPI();
+    this.getData();
   },
   computed: {},
   methods: {
@@ -191,17 +194,17 @@ export default {
     },
     setTimeFormat(val) {
       this.ruleForm.time = val;
-      console.log("time", val);
+      // console.log("time", val);
     },
     setDateFormat(val) {
       this.ruleForm.date = val;
-      console.log("date", val);
+      // console.log("date", val);
     },
     submitForm(TimetableSearch) {
       this.$refs[TimetableSearch].validate(valid => {
         if (valid) {
           alert("submit!");
-          console.log(this.ruleForm);
+          // console.log(this.ruleForm);
         } else {
           console.log("error submit!!");
           return false;
@@ -212,15 +215,40 @@ export default {
       this.getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
     },
     getData(from, to, date) {
-      console.log("getData", from, to, date);
+      // console.log(from, to, date);
       axios({
         methods: "GET",
-        // data格式待調整
-        // https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/${date}?$format=JSON
-        url: `https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/2020-06-30?$format=JSON`
+        url: `https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/${date}?$format=JSON`
       }).then(res => {
-        console.log(res.data);
+        // console.log(res.data);
+        this.resData = res.data;
+        console.log(this.resData);
       });
+    },
+    getNewArray() {
+      this.newArray = [];
+      console.log("this.newArray", this.newArray);
+      // newArray: [{...},{...},{...},{...},{...}]
+      this.resData.forEach(item => {
+        this.newArray.push({
+          TrainDate: item.TrainDate,
+          DepTime: item.OriginStopTime.DepartureTime,
+          DepID: item.OriginStopTime.StationID,
+          ArrTime: item.DestinationStopTime.ArrivalTime,
+          ArrID: item.DestinationStopTime.StationID,
+          TrainNo: item.DailyTrainInfo.TrainNo
+        });
+      });
+      console.log(this.newArray);
+    },
+    filterForm() {
+      // filter時間>=ruleForm.time
+      const result = this.newArray.filter(item => {
+        return item.DepTime >= this.ruleForm.time;
+      });
+      console.log("filterForm", result);
+      // sort排序
+      // splice(5)只保留top 5 ，第6筆(含)以後刪除((即刪除index5以後的資料))
     }
   }
 };

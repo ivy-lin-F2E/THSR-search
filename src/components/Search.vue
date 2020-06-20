@@ -91,7 +91,7 @@
                 </el-col>
               </el-row>
             </el-form>
-            <Timetable :ruleForm="ruleForm" @submit="submitForm" />
+            <Timetable :filterForm="filterForm" @submit="submitForm" />
           </el-drawer>
         </div>
       </el-col>
@@ -198,7 +198,7 @@ export default {
     },
     handleSubmit() {
       this.submitForm("ruleForm");
-      this.fetchAPI();
+      this.fetchData(); // 原本this.fetchAPI();
     },
     setDateFormat(val) {
       this.ruleForm.date = val;
@@ -215,14 +215,10 @@ export default {
         }
       });
     },
-    fetchAPI() {
-      this.getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
+    fetchData:fetchAPI() {
+      getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
     },
-    getData().then((res) => {
-        this.resData = res.data;
-        this.getNewArray();
-        this.filterForm();
-    }),
+    getData().then(),
     getNewArray() {
       this.newArray = [];
       // console.log("this.newArray", this.newArray);

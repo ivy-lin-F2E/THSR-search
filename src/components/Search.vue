@@ -199,8 +199,6 @@ export default {
     handleSubmit() {
       this.submitForm("ruleForm");
       this.fetchAPI();
-      this.getNewArray();
-      this.filterForm();
     },
     setDateFormat(val) {
       this.ruleForm.date = val;
@@ -220,17 +218,11 @@ export default {
     fetchAPI() {
       this.getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
     },
-    // getData(from, to, date) {
-    //   // console.log(from, to, date);
-    //   axios({
-    //     methods: "GET",
-    //     url: `https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${from}/to/${to}/${date}?$format=JSON`
-    //   }).then(res => {
-    //     // console.log(res.data);
-    //     this.resData = res.data;
-    //     console.log("resData", this.resData);
-    //   });
-    // },
+    getData().then((res) => {
+        this.resData = res.data;
+        this.getNewArray();
+        this.filterForm();
+    }),
     getNewArray() {
       this.newArray = [];
       // console.log("this.newArray", this.newArray);

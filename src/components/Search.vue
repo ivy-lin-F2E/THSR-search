@@ -86,11 +86,7 @@
                 </el-col>
                 <el-col :xs="24" :sm="4" :md="2">
                   <div class="col bg-purple">
-                    <el-button
-                      type="primary"
-                      @click="submitForm('ruleForm');fetchAPI();getData();getNewArray();filterForm();"
-                      icon="el-icon-search"
-                    ></el-button>
+                    <el-button type="primary" @click="handleSubmit" icon="el-icon-search"></el-button>
                   </div>
                 </el-col>
               </el-row>
@@ -194,11 +190,17 @@ export default {
       const resTo = this.ruleForm.from;
       this.ruleForm.from = resFrom;
       this.ruleForm.to = resTo;
-      console.log(this.ruleForm);
+      // console.log(this.ruleForm);
     },
     setTimeFormat(val) {
       this.ruleForm.time = val;
       // console.log("time", val);
+    },
+    handleSubmit() {
+      this.submitForm("ruleForm");
+      this.fetchAPI();
+      this.getNewArray();
+      this.filterForm();
     },
     setDateFormat(val) {
       this.ruleForm.date = val;
@@ -226,13 +228,12 @@ export default {
     //   }).then(res => {
     //     // console.log(res.data);
     //     this.resData = res.data;
-    //     console.log(this.resData);
+    //     console.log("resData", this.resData);
     //   });
     // },
     getNewArray() {
       this.newArray = [];
-      console.log("this.newArray", this.newArray);
-      // newArray: [{...},{...},{...},{...},{...}]
+      // console.log("this.newArray", this.newArray);
       this.resData.forEach(item => {
         this.newArray.push({
           TrainDate: item.TrainDate,
@@ -243,15 +244,12 @@ export default {
           TrainNo: item.DailyTrainInfo.TrainNo
         });
       });
-      console.log(this.newArray);
+      console.log("newArray", this.newArray);
     },
     filterForm() {
-      // filter時間>=ruleForm.time
       const result = this.newArray.filter(item => {
         return item.DepTime >= this.ruleForm.time;
       });
-
-      // sort排序
       result.sort(function(a, b) {
         var DepTimeA = a.DepTime.toUpperCase();
         var DepTimeB = b.DepTime.toUpperCase();
@@ -263,11 +261,9 @@ export default {
         }
         return 0;
       });
-
-      // splice(5)只保留top 5 ，第6筆(含)以後刪除((即刪除index5以後的資料))
       result.splice(5);
       this.filterData = result;
-      console.log(this.filterData);
+      console.log("filterData", this.filterData);
     }
   }
 };

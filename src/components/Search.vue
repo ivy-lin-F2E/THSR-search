@@ -91,7 +91,7 @@
                 </el-col>
               </el-row>
             </el-form>
-            <Timetable :filterForm="filterForm" @submit="submitForm" />
+            <Timetable :filterData="filterData" :savedData="savedData" @click="handleSubmit" />
           </el-drawer>
         </div>
       </el-col>
@@ -177,7 +177,8 @@ export default {
       },
       resData: [],
       newArray: [],
-      filterData: []
+      filterData: [],
+      savedData: []
     };
   },
   mounted() {
@@ -207,7 +208,7 @@ export default {
     submitForm(TimetableSearch) {
       this.$refs[TimetableSearch].validate(valid => {
         if (valid) {
-          alert("submit!");
+          // alert("submit!");
           // console.log(this.ruleForm);
         } else {
           console.log("error submit!!");
@@ -232,7 +233,7 @@ export default {
           TrainNo: item.DailyTrainInfo.TrainNo
         });
       });
-      console.log("newArray", this.newArray);
+      // console.log("newArray", this.newArray);
     },
     filterForm() {
       const result = this.newArray.filter(item => {
@@ -251,7 +252,7 @@ export default {
       });
       result.splice(5);
       this.filterData = result;
-      console.log("filterData", this.filterData);
+      // console.log("filterData", this.filterData);
     }
   }
 };

@@ -1,10 +1,11 @@
 <template>
   <div class="timetable">
     <el-table
-      :data="tableData"
+      :data="filterData"
+      :savedData="savedData"
       highlight-current-row
       @current-change="handleCurrentChange"
-      :default-sort="{prop: '!startTime', order: 'descending'}"
+      :default-sort="{prop: '!DepTime', order: 'descending'}"
     >
       <el-table-column prop="TrainNo" label="車次" sortable min-width="30"></el-table-column>
       <el-table-column prop="DepTime" label="出發時間" sortable min-width="50"></el-table-column>
@@ -13,21 +14,21 @@
     </el-table>
     <el-row>
       <el-col :xs="12" :md="12">
-        <!-- 一定要給至少2種尺寸 -->
         <div class="col bg-purple-light">
-          <el-button type="info" icon="el-icon-collection-tag">暫存</el-button>
+          <el-button
+            type="info"
+            icon="el-icon-collection-tag"
+            :plain="true"
+            @click="handleSave"
+            :disabled="isDisabled"
+          >暫存</el-button>
         </div>
       </el-col>
       <el-col :xs="12" :md="12">
         <div class="col bg-purple">
-          <el-button type="primary" icon="el-icon-bank-card">購票</el-button>
+          <el-button type="primary" icon="el-icon-bank-card" disabled>購票</el-button>
         </div>
       </el-col>
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>{{ filterForm }}</span>
-        </div>
-      </el-card>
     </el-row>
   </div>
 </template>
@@ -36,23 +37,40 @@
 export default {
   name: "timetable",
   props: {
-    filterForm: Object
+    filterData: Array,
+    savedData: Array
   },
-  components: {},
   data() {
     return {
-      tableData: []
+      isDisabled: true
     };
   },
-  mounted() {
-    // console.log(this.filterForm);
-    this.tableData = [];
-  },
-  computed: {},
   methods: {
     handleCurrentChange(val) {
       this.currentRow = val;
-      console.log(val);
+      // console.log(val);
+      return (this.isDisabled = false);
+    },
+    handleSave() {
+      this.update();
+      // 1# 接收handleCurrentChange的val
+      // 2# 抓取父層Search.vue的savedData((或是在handleSubmit的時候props進來??))
+      // 3# 把1#的結果與savedData取聯集
+      // 參考https://bonze.tw/javascript-array-intersection-difference-set/
+      // 4# 把3#的結果按照DepTime排序((ref. result.sort(function(a, b){...} ))
+      // 5# 把4#傳給父層Search.vue
+      // 6# 清空filterData和父層Search.vue el-form-item的值
+      this.closeDrawertime();
+      // 7# 出現Message消息提示「儲存成功，3秒後自動跳轉回首頁」
+      // 8# setTimeout，3秒後自動關閉drawer → @click="drawertime = false"
+      // 參考https://blog.csdn.net/u011280778/article/details/100589317
+    },
+    update() {},
+    closeDrawertime() {
+      this.$message({
+        message: "儲存成功，3秒後自動跳轉回首頁",
+        type: "success"
+      });
     }
   }
 };

@@ -44,3 +44,9 @@ html, body, a {
 .el-form-item {
     margin: 0;
 }
+// .el-drawer.ltr, .el-drawer.rtl, .el-drawer__container {
+//     top: 30px;
+// }
+.el-drawer__body {
+  overflow: scroll;
+}

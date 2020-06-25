@@ -5,7 +5,7 @@
       :savedData="savedData"
       highlight-current-row
       @current-change="handleCurrentChange"
-      :default-sort="{prop: '!DepTime', order: 'descending'}"
+      :default-sort="{prop: 'DepTime'}"
     >
       <el-table-column prop="TrainNo" label="車次" sortable min-width="30"></el-table-column>
       <el-table-column prop="DepTime" label="出發時間" sortable min-width="50"></el-table-column>
@@ -20,7 +20,7 @@
             icon="el-icon-collection-tag"
             :plain="true"
             @click="handleSave"
-            :disabled="isDisabled"
+            :disabled="disabledSaveButton"
           >暫存</el-button>
         </div>
       </el-col>
@@ -42,16 +42,25 @@ export default {
   },
   data() {
     return {
-      isDisabled: true
+      currentRow: {}
     };
+  },
+  computed: {
+    disabledSaveButton() {
+      return !Object.values(this.currentRow).length;
+    }
   },
   methods: {
     handleCurrentChange(val) {
       this.currentRow = val;
-      // console.log(val);
-      return (this.isDisabled = false);
+
+      console.log(Object.keys(val), Object.values(val));
+
+      // return (this.isDisabled = false);
     },
     handleSave() {
+      localStorage.setItem("savedData", JSON.stringify(this.currentRow));
+
       this.update();
       // 1# 接收handleCurrentChange的val
       // 2# 抓取父層Search.vue的savedData((或是在handleSubmit的時候props進來??))

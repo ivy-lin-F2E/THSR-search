@@ -3,14 +3,8 @@
     <el-row>
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawertime = true">查時刻車次</el-button>
-          <el-drawer
-            title="查時刻車次"
-            :visible.sync="drawertime"
-            direction="rtl"
-            size="100%"
-            style="margin-top: 60px"
-          >
+          <el-button class="button" @click="drawerTime = true">查時刻車次</el-button>
+          <el-drawer title="查時刻車次" :visible.sync="drawerTime" direction="rtl" size="100%">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
               <el-row>
                 <el-col :xs="24" :sm="10" :md="5">
@@ -91,56 +85,37 @@
                 </el-col>
               </el-row>
             </el-form>
-            <Timetable :filterData="filterData" :savedData="savedData" @click="handleSubmit" />
+            <Timetable
+              v-if="filterData.length"
+              :filterData="filterData"
+              :savedData="savedData"
+              @click="handleSubmit"
+            />
           </el-drawer>
         </div>
       </el-col>
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawerstation = true">查車站</el-button>
-          <el-drawer
-            title="查車站"
-            :visible.sync="drawerstation"
-            direction="rtl"
-            size="100%"
-            style="margin-top: 60px"
-          ></el-drawer>
+          <el-button class="button" @click="drawerStation = true">查車站</el-button>
+          <el-drawer title="查車站" :visible.sync="drawerStation" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawerfare = true">查票價</el-button>
-          <el-drawer
-            title="查票價"
-            :visible.sync="drawerfare"
-            direction="rtl"
-            size="100%"
-            style="margin-top: 60px"
-          ></el-drawer>
+          <el-button class="button" @click="drawerFare = true">查票價</el-button>
+          <el-drawer title="查票價" :visible.sync="drawerFare" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawersaved = true">暫存行程</el-button>
-          <el-drawer
-            title="暫存行程"
-            :visible.sync="drawersaved"
-            direction="rtl"
-            size="100%"
-            style="margin-top: 60px"
-          ></el-drawer>
+          <el-button class="button" @click="drawerSaved = true">暫存行程</el-button>
+          <el-drawer title="暫存行程" :visible.sync="drawerSaved" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
       <el-col :xs="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawerticketing = true">購買車票</el-button>
-          <el-drawer
-            title="購買車票"
-            :visible.sync="drawerticketing"
-            direction="rtl"
-            size="100%"
-            style="margin-top: 60px"
-          ></el-drawer>
+          <el-button class="button" @click="drawerTicketing = true">購買車票</el-button>
+          <el-drawer title="購買車票" :visible.sync="drawerTicketing" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
     </el-row>
@@ -158,11 +133,11 @@ export default {
   },
   data() {
     return {
-      drawertime: false,
-      drawerstation: false,
-      drawerfare: false,
-      drawersaved: false,
-      drawerticketing: false,
+      drawerTime: false,
+      drawerStation: false,
+      drawerFare: false,
+      drawerSaved: false,
+      drawerTicketing: false,
       ruleForm: {
         from: "",
         to: "",
@@ -216,43 +191,31 @@ export default {
         }
       });
     },
-    fetchData:fetchAPI() {
-      getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
+    fetchData() {
+      getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date).then(
+        res => {
+          this.resData = res.data;
+          this.getNewArray();
+          this.filterForm();
+        }
+      );
     },
-    getData().then(),
     getNewArray() {
-      this.newArray = [];
-      // console.log("this.newArray", this.newArray);
-      this.resData.forEach(item => {
-        this.newArray.push({
-          TrainDate: item.TrainDate,
-          DepTime: item.OriginStopTime.DepartureTime,
-          DepID: item.OriginStopTime.StationID,
-          ArrTime: item.DestinationStopTime.ArrivalTime,
-          ArrID: item.DestinationStopTime.StationID,
-          TrainNo: item.DailyTrainInfo.TrainNo
-        });
-      });
-      // console.log("newArray", this.newArray);
+      this.newArray = this.resData.map(item => ({
+        TrainDate: item.TrainDate,
+        DepTime: item.OriginStopTime.DepartureTime,
+        DepID: item.OriginStopTime.StationID,
+        ArrTime: item.DestinationStopTime.ArrivalTime,
+        ArrID: item.DestinationStopTime.StationID,
+        TrainNo: item.DailyTrainInfo.TrainNo
+      }));
     },
     filterForm() {
       const result = this.newArray.filter(item => {
         return item.DepTime >= this.ruleForm.time;
       });
-      result.sort(function(a, b) {
-        var DepTimeA = a.DepTime.toUpperCase();
-        var DepTimeB = b.DepTime.toUpperCase();
-        if (DepTimeA < DepTimeB) {
-          return -1;
-        }
-        if (DepTimeA > DepTimeB) {
-          return 1;
-        }
-        return 0;
-      });
       result.splice(5);
       this.filterData = result;
-      // console.log("filterData", this.filterData);
     }
   }
 };

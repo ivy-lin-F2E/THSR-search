@@ -4,7 +4,13 @@
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
           <el-button class="button" @click="drawerTime = true">查時刻車次</el-button>
-          <el-drawer title="查時刻車次" :visible.sync="drawerTime" direction="rtl" size="100%">
+          <el-drawer
+            title="查時刻車次"
+            :visible.sync="drawerTime"
+            direction="rtl"
+            size="100%"
+            @close="resetForm('ruleForm')"
+          >
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
               <el-row>
                 <el-col :xs="24" :sm="10" :md="5">
@@ -142,8 +148,8 @@ export default {
       ruleForm: {
         from: "",
         to: "",
-        time: "21:00",
-        date: "2020-06-30"
+        time: "",
+        date: ""
       },
       rules: {
         from: [{ required: true, message: " ", trigger: "change" }],
@@ -222,6 +228,13 @@ export default {
       setTimeout(() => {
         this.drawerTime = false;
       }, 3000);
+    },
+    resetForm(TimetableSearch) {
+      this.$refs[TimetableSearch].resetFields();
+      this.resData = [];
+      this.newArray = [];
+      this.filterData = [];
+      this.savedData = [];
     }
   }
 };

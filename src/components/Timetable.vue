@@ -53,10 +53,7 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.currentRow = val;
-
-      console.log(Object.keys(val), Object.values(val));
-
-      // return (this.isDisabled = false);
+      // console.log(Object.keys(val), Object.values(val));
     },
     handleSave() {
       localStorage.setItem("savedData", JSON.stringify(this.currentRow));

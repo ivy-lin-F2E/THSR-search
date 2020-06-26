@@ -90,6 +90,7 @@
               :filterData="filterData"
               :savedData="savedData"
               @click="handleSubmit"
+              @close="handleCloseDrawer"
             />
           </el-drawer>
         </div>
@@ -141,8 +142,8 @@ export default {
       ruleForm: {
         from: "",
         to: "",
-        time: "",
-        date: ""
+        time: "21:00",
+        date: "2020-06-30"
       },
       rules: {
         from: [{ required: true, message: " ", trigger: "change" }],
@@ -216,6 +217,11 @@ export default {
       });
       result.splice(5);
       this.filterData = result;
+    },
+    handleCloseDrawer() {
+      setTimeout(() => {
+        this.drawerTime = false;
+      }, 3000);
     }
   }
 };

@@ -69,17 +69,18 @@ export default {
       // 4# 把3#的結果按照DepTime排序((ref. result.sort(function(a, b){...} ))
       // 5# 把4#傳給父層Search.vue
       // 6# 清空filterData和父層Search.vue el-form-item的值
-      this.closeDrawertime();
+      this.closeDrawerTime();
       // 7# 出現Message消息提示「儲存成功，3秒後自動跳轉回首頁」
       // 8# setTimeout，3秒後自動關閉drawer → @click="drawertime = false"
       // 參考https://blog.csdn.net/u011280778/article/details/100589317
     },
     update() {},
-    closeDrawertime() {
+    closeDrawerTime() {
       this.$message({
         message: "儲存成功，3秒後自動跳轉回首頁",
         type: "success"
       });
+      this.$emit("close");
     }
   }
 };

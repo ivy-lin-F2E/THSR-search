@@ -2,7 +2,6 @@
   <div class="timetable">
     <el-table
       :data="filterData"
-      :savedData="savedData"
       highlight-current-row
       @current-change="handleCurrentChange"
       :default-sort="{prop: 'DepTime'}"
@@ -37,12 +36,12 @@
 export default {
   name: "timetable",
   props: {
-    filterData: Array,
-    savedData: Array
+    filterData: Array
   },
   data() {
     return {
-      currentRow: {}
+      currentRow: {},
+      storageArray: []
     };
   },
   computed: {
@@ -53,25 +52,30 @@ export default {
   methods: {
     handleCurrentChange(val) {
       this.currentRow = val;
-      // console.log(Object.keys(val), Object.values(val));
     },
     handleSave() {
-      localStorage.setItem("savedData", JSON.stringify(this.currentRow));
-
-      this.update();
-      // 1# 接收handleCurrentChange的val
-      // 2# 抓取父層Search.vue的savedData((或是在handleSubmit的時候props進來??))
-      // 3# 把1#的結果與savedData取聯集
-      // 參考https://bonze.tw/javascript-array-intersection-difference-set/
-      // 4# 把3#的結果按照DepTime排序((ref. result.sort(function(a, b){...} ))
-      // 5# 把4#傳給父層Search.vue
-      // 6# 清空filterData和父層Search.vue el-form-item的值
       this.closeDrawerTime();
-      // 7# 出現Message消息提示「儲存成功，3秒後自動跳轉回首頁」
-      // 8# setTimeout，3秒後自動關閉drawer → @click="drawertime = false"
-      // 參考https://blog.csdn.net/u011280778/article/details/100589317
+      if (localStorage.getItem("savedData") === null) {
+        this.storageArray = [this.currentRow];
+        localStorage.setItem("savedData", JSON.stringify(this.storageArray));
+      } else {
+        this.storageArray = JSON.parse(localStorage.getItem("savedData"));
+        this.checkExist();
+      }
     },
-    update() {},
+    checkExist() {
+      let result = this.storageArray.filter(item => {
+        return item.TrainNo === this.currentRow.TrainNo;
+      });
+      if (result.length == 0) {
+        this.update();
+      }
+      return;
+    },
+    update() {
+      this.storageArray.push(this.currentRow);
+      localStorage.setItem("savedData", JSON.stringify(this.storageArray));
+    },
     closeDrawerTime() {
       this.$message({
         message: "儲存成功，3秒後自動跳轉回首頁",

@@ -94,7 +94,6 @@
             <Timetable
               v-if="filterData.length"
               :filterData="filterData"
-              :savedData="savedData"
               @click="handleSubmit"
               @close="handleCloseDrawer"
             />
@@ -103,13 +102,13 @@
       </el-col>
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawerStation = true">查車站</el-button>
+          <el-button class="button" @click="drawerStation = true" disabled>查車站</el-button>
           <el-drawer title="查車站" :visible.sync="drawerStation" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawerFare = true">查票價</el-button>
+          <el-button class="button" @click="drawerFare = true" disabled>查票價</el-button>
           <el-drawer title="查票價" :visible.sync="drawerFare" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
@@ -121,7 +120,7 @@
       </el-col>
       <el-col :xs="24">
         <div class="button-wrap">
-          <el-button class="button" @click="drawerTicketing = true">購買車票</el-button>
+          <el-button class="button" @click="drawerTicketing = true" disabled>購買車票</el-button>
           <el-drawer title="購買車票" :visible.sync="drawerTicketing" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
@@ -159,8 +158,7 @@ export default {
       },
       resData: [],
       newArray: [],
-      filterData: [],
-      savedData: []
+      filterData: []
     };
   },
   mounted() {
@@ -234,7 +232,6 @@ export default {
       this.resData = [];
       this.newArray = [];
       this.filterData = [];
-      this.savedData = [];
     }
   }
 };

@@ -102,6 +102,12 @@
       </el-col>
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
+          <el-button class="button" @click="drawerSaved = true">暫存行程</el-button>
+          <el-drawer title="暫存行程" :visible.sync="drawerSaved" direction="rtl" size="100%"></el-drawer>
+        </div>
+      </el-col>
+      <el-col :xs="12" :md="24">
+        <div class="button-wrap">
           <el-button class="button" @click="drawerStation = true" disabled>查車站</el-button>
           <el-drawer title="查車站" :visible.sync="drawerStation" direction="rtl" size="100%"></el-drawer>
         </div>
@@ -110,12 +116,6 @@
         <div class="button-wrap">
           <el-button class="button" @click="drawerFare = true" disabled>查票價</el-button>
           <el-drawer title="查票價" :visible.sync="drawerFare" direction="rtl" size="100%"></el-drawer>
-        </div>
-      </el-col>
-      <el-col :xs="12" :md="24">
-        <div class="button-wrap">
-          <el-button class="button" @click="drawerSaved = true">暫存行程</el-button>
-          <el-drawer title="暫存行程" :visible.sync="drawerSaved" direction="rtl" size="100%"></el-drawer>
         </div>
       </el-col>
       <el-col :xs="24">

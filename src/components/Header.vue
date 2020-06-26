@@ -2,7 +2,7 @@
   <div>
     <el-header class="header">
       高鐵購GO!
-      <el-popover placement="bottom">
+      <!-- <el-popover placement="bottom">
         <el-menu>
           <el-menu-item index="1">
             <i class="el-icon-user"></i>Log in / Log out
@@ -13,7 +13,6 @@
           <el-menu-item index="3">
             <i class="el-icon-document"></i>使用教學
           </el-menu-item>
-          <!-- </el-submenu> -->
         </el-menu>
         <el-button
           type="warning"
@@ -22,7 +21,7 @@
           slot="reference"
           @click="visible = !visible"
         ></el-button>
-      </el-popover>
+      </el-popover>-->
     </el-header>
   </div>
 </template>

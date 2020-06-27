@@ -219,6 +219,17 @@ export default {
       const result = this.newArray.filter(item => {
         return item.DepTime >= this.ruleForm.time;
       });
+      result.sort(function(a, b) {
+        var DepTimeA = a.DepTime.toUpperCase();
+        var DepTimeB = b.DepTime.toUpperCase();
+        if (DepTimeA < DepTimeB) {
+          return -1;
+        }
+        if (DepTimeA > DepTimeB) {
+          return 1;
+        }
+        return 0;
+      });
       result.splice(5);
       this.filterData = result;
     },

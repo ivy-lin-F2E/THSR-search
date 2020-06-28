@@ -32,3 +32,21 @@ html, body, a {
 .el-popover {
     padding: 0;
 }
+.el-table--border::after, .el-table--group::after, .el-table::before {
+    background-color: transparent;
+}
+.el-table td {
+    text-align: center;
+}
+.el-table th {
+    text-align: center;
+}
+.el-form-item {
+    margin: 0;
+}
+// .el-drawer.ltr, .el-drawer.rtl, .el-drawer__container {
+//     top: 30px;
+// }
+.el-drawer__body {
+  overflow: scroll;
+}

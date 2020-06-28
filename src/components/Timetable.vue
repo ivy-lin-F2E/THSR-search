@@ -9,7 +9,7 @@
       <el-table-column prop="TrainNo" label="車次" sortable min-width="30"></el-table-column>
       <el-table-column prop="DepTime" label="出發時間" sortable min-width="50"></el-table-column>
       <el-table-column prop="ArrTime" label="到達時間" sortable min-width="50"></el-table-column>
-      <el-table-column prop="total" label="行車時間" sortable min-width="50"></el-table-column>
+      <el-table-column prop="duration" label="行車時間" sortable min-width="50"></el-table-column>
     </el-table>
     <el-row>
       <el-col :xs="12" :md="12">

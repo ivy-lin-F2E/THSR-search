@@ -80,6 +80,8 @@
         </el-col>
       </el-row>
     </el-form>
+    <br v-if="loading" />
+    <el-row v-loading="loading"></el-row>
     <Timetable
       v-if="filterData.length"
       :filterData="filterData"
@@ -115,6 +117,7 @@ export default {
         time: [{ required: true, message: " " }],
         date: [{ required: true, message: " " }]
       },
+      loading: false,
       filterData: []
     };
   },
@@ -129,6 +132,7 @@ export default {
       this.ruleForm.time = val;
     },
     handleSubmit() {
+      this.loading = true;
       this.submitForm("ruleForm");
       this.fetchData();
     },
@@ -148,9 +152,9 @@ export default {
     },
     fetchData() {
       this.filterData = [];
-      // console.log("filterData", this.filterData);
       getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date).then(
         res => {
+          this.loading = false;
           const resData = res.data;
           const newArray = this.getNewArray(resData);
           const filterData = this.filterForm(newArray);

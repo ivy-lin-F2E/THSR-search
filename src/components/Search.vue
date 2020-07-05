@@ -18,7 +18,9 @@
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
           <el-button class="button" @click="drawerSaved = true">暫存行程</el-button>
-          <el-drawer title="暫存行程" :visible.sync="drawerSaved" direction="rtl" size="100%"></el-drawer>
+          <el-drawer title="暫存行程" :visible.sync="drawerSaved" direction="rtl" size="100%">
+            <Saved />
+          </el-drawer>
         </div>
       </el-col>
       <el-col :xs="12" :md="24">
@@ -45,11 +47,13 @@
 
 <script>
 import SearchForm from "./SearchForm";
+import Saved from "./Saved";
 
 export default {
   name: "Search",
   components: {
-    SearchForm
+    SearchForm,
+    Saved
   },
   data() {
     return {

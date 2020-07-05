@@ -4,8 +4,14 @@
       <el-col :xs="12" :md="24">
         <div class="button-wrap">
           <el-button class="button" @click="drawerTime = true">查時刻車次</el-button>
-          <el-drawer title="查時刻車次" :visible.sync="drawerTime" direction="rtl" size="100%">
-            <SearchForm />
+          <el-drawer
+            title="查時刻車次"
+            :visible.sync="drawerTime"
+            direction="rtl"
+            size="100%"
+            :destroy-on-close="true"
+          >
+            <SearchForm @close="handleCloseDrawer" />
           </el-drawer>
         </div>
       </el-col>
@@ -51,8 +57,33 @@ export default {
       drawerStation: false,
       drawerFare: false,
       drawerSaved: false,
-      drawerTicketing: false
+      drawerTicketing: false,
+      resData: [{ a: 1 }, { a: 2 }]
     };
+  },
+  methods: {
+    handleCloseDrawerTime(type) {
+      setTimeout(() => {
+        const condition = [
+          "drawerTime",
+          "drawerStation",
+          "drawerFare",
+          "drawerSaved",
+          "drawerTicketing"
+        ];
+
+        if (!condition.includes(type)) {
+          return;
+        }
+
+        this[type] = false;
+      }, 3000);
+    },
+    handleCloseDrawer() {
+      setTimeout(() => {
+        this.drawerTime = false;
+      }, 3000);
+    }
   }
 };
 </script>

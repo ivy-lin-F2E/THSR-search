@@ -84,7 +84,7 @@
       v-if="filterData.length"
       :filterData="filterData"
       @click="handleSubmit"
-      @close="handleCloseDrawer"
+      @close="resetForm('ruleForm')"
     />
   </div>
 </template>
@@ -115,8 +115,6 @@ export default {
         time: [{ required: true, message: " " }],
         date: [{ required: true, message: " " }]
       },
-      resData: [],
-      newArray: [],
       filterData: []
     };
   },
@@ -143,22 +141,28 @@ export default {
           // alert("submit!");
           // console.log("ruleForm", this.ruleForm);
         } else {
-          console.log("error submit!!");
+          // console.log("error submit!!");
           return false;
         }
       });
     },
     fetchData() {
+      this.filterData = [];
+      // console.log("filterData", this.filterData);
       getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date).then(
         res => {
-          this.resData = res.data;
-          this.getNewArray();
-          this.filterForm();
+          const resData = res.data;
+          const newArray = this.getNewArray(resData);
+          const filterData = this.filterForm(newArray);
+          this.getDuration(filterData);
+          if (resData.length === 0) {
+            alert("查無符合資料，請重新輸入");
+          }
         }
       );
     },
-    getNewArray() {
-      this.newArray = this.resData.map(item => ({
+    getNewArray(resData) {
+      return resData.map(item => ({
         TrainDate: item.TrainDate,
         DepTime: item.OriginStopTime.DepartureTime,
         DepID: item.OriginStopTime.StationID,
@@ -167,8 +171,8 @@ export default {
         TrainNo: item.DailyTrainInfo.TrainNo
       }));
     },
-    filterForm() {
-      const result = this.newArray.filter(item => {
+    filterForm(newArray) {
+      const result = newArray.filter(item => {
         return item.DepTime >= this.ruleForm.time;
       });
       result.sort(function(a, b) {
@@ -183,83 +187,37 @@ export default {
         return 0;
       });
       result.splice(5);
-      this.spliceData = result;
-      this.getDuration();
+      return result;
     },
-    getDuration() {
-      let i = this.spliceData[0];
-      let startTime = i["DepTime"];
-      let endTime = i["ArrTime"];
-      let startSplit = startTime.split(":");
-      let start = parseInt(startSplit[0] * 60) + parseInt(startSplit[1]);
-      let endSplit = endTime.split(":");
-      let end = parseInt(endSplit[0] * 60) + parseInt(endSplit[1]);
-      let diff = end - start;
-      let hours = Math.floor(diff / 60);
-      let minutes = diff % 60;
-      let duration = String(hours + "時" + minutes + "分");
-      i["duration"] = duration;
-      let i1 = this.spliceData[1];
-      let startTime1 = i1["DepTime"];
-      let endTime1 = i1["ArrTime"];
-      let startSplit1 = startTime1.split(":");
-      let start1 = parseInt(startSplit1[0] * 60) + parseInt(startSplit1[1]);
-      let endSplit1 = endTime1.split(":");
-      let end1 = parseInt(endSplit1[0] * 60) + parseInt(endSplit1[1]);
-      let diff1 = end1 - start1;
-      let hours1 = Math.floor(diff1 / 60);
-      let minutes1 = diff1 % 60;
-      let duration1 = String(hours1 + "時" + minutes1 + "分");
-      i1["duration"] = duration1;
-      let i2 = this.spliceData[2];
-      let startTime2 = i2["DepTime"];
-      let endTime2 = i2["ArrTime"];
-      let startSplit2 = startTime2.split(":");
-      let start2 = parseInt(startSplit2[0] * 60) + parseInt(startSplit2[1]);
-      let endSplit2 = endTime2.split(":");
-      let end2 = parseInt(endSplit2[0] * 60) + parseInt(endSplit2[1]);
-      let diff2 = end2 - start2;
-      let hours2 = Math.floor(diff2 / 60);
-      let minutes2 = diff2 % 60;
-      let duration2 = String(hours2 + "時" + minutes2 + "分");
-      i2["duration"] = duration2;
-      let i3 = this.spliceData[3];
-      let startTime3 = i3["DepTime"];
-      let endTime3 = i3["ArrTime"];
-      let startSplit3 = startTime3.split(":");
-      let start3 = parseInt(startSplit3[0] * 60) + parseInt(startSplit3[1]);
-      let endSplit3 = endTime3.split(":");
-      let end3 = parseInt(endSplit3[0] * 60) + parseInt(endSplit3[1]);
-      let diff3 = end3 - start3;
-      let hours3 = Math.floor(diff3 / 60);
-      let minutes3 = diff3 % 60;
-      let duration3 = String(hours3 + "時" + minutes3 + "分");
-      i3["duration"] = duration3;
-      let i4 = this.spliceData[4];
-      let startTime4 = i4["DepTime"];
-      let endTime4 = i4["ArrTime"];
-      let startSplit4 = startTime4.split(":");
-      let start4 = parseInt(startSplit4[0] * 60) + parseInt(startSplit4[1]);
-      let endSplit4 = endTime4.split(":");
-      let end4 = parseInt(endSplit4[0] * 60) + parseInt(endSplit4[1]);
-      let diff4 = end4 - start4;
-      let hours4 = Math.floor(diff4 / 60);
-      let minutes4 = diff4 % 60;
-      let duration4 = String(hours4 + "時" + minutes4 + "分");
-      i4["duration"] = duration4;
-      this.filterData = [i, i1, i2, i3, i4];
-    },
-    handleCloseDrawer() {
-      setTimeout(() => {
-        this.drawerTime = false;
-      }, 3000);
+    getDuration(filterData) {
+      // console.log("getDuration", filterData);
+      const res = filterData.map(item => {
+        let startTime = item["DepTime"];
+        let endTime = item["ArrTime"];
+        let startSplit = startTime.split(":");
+        let start = parseInt(startSplit[0] * 60) + parseInt(startSplit[1]);
+        let endSplit = endTime.split(":");
+        let end = parseInt(endSplit[0] * 60) + parseInt(endSplit[1]);
+        let diff = end - start;
+        let hours = Math.floor(diff / 60);
+        let minutes = diff % 60;
+        let duration = String(hours + "時" + minutes + "分");
+
+        return {
+          ...item,
+          duration
+        };
+      });
+
+      this.filterData = res;
     },
     resetForm(TimetableSearch) {
-      console.log("resetForm");
-      this.$refs[TimetableSearch].resetFields();
-      this.resData = [];
-      this.newArray = [];
-      this.filterData = [];
+      // console.log("resetForm");
+      setTimeout(() => {
+        this.$refs[TimetableSearch].resetFields();
+        this.filterData = [];
+      }, 3000);
+      this.$emit("close");
     }
   }
 };

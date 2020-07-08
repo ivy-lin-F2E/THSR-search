@@ -112,7 +112,6 @@ export default {
       rules: {
         from: [{ required: true, message: " ", trigger: "change" }],
         to: [{ required: true, message: " ", trigger: "change" }],
-        time: [{ required: true, message: " " }],
         date: [{ required: true, message: " " }]
       },
       loading: false,
@@ -130,9 +129,7 @@ export default {
       this.ruleForm.time = val;
     },
     handleSubmit() {
-      this.loading = true;
-      this.submitForm("ruleForm");
-      this.fetchData();
+      this.submitForm("ruleForm"); // 為什麼一定要放在handleSubmit才會動
     },
     setDateFormat(val) {
       this.ruleForm.date = val;
@@ -140,10 +137,9 @@ export default {
     submitForm(TimetableSearch) {
       this.$refs[TimetableSearch].validate(valid => {
         if (valid) {
-          // alert("submit!");
-          // console.log("ruleForm", this.ruleForm);
+          this.loading = true;
+          this.fetchData();
         } else {
-          // console.log("error submit!!");
           return false;
         }
       });
@@ -178,8 +174,8 @@ export default {
         return item.DepTime >= this.ruleForm.time;
       });
       result.sort(function(a, b) {
-        var DepTimeA = a.DepTime.toUpperCase();
-        var DepTimeB = b.DepTime.toUpperCase();
+        const DepTimeA = a.DepTime.toUpperCase();
+        const DepTimeB = b.DepTime.toUpperCase();
         if (DepTimeA < DepTimeB) {
           return -1;
         }
@@ -188,6 +184,9 @@ export default {
         }
         return 0;
       });
+      if (this.ruleForm.time === "") {
+        return result;
+      }
       result.splice(5);
       return result;
     },

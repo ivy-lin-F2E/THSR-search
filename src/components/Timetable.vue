@@ -65,9 +65,14 @@ export default {
     },
     checkExist() {
       let result = this.storageArray.filter(item => {
-        return item.TrainNo === this.currentRow.TrainNo;
+        return (
+          item.TrainDate === this.currentRow.TrainDate &&
+          item.TrainDepID === this.currentRow.TrainDepID &&
+          item.TrainArrID === this.currentRow.TrainIDArr &&
+          item.TrainNo === this.currentRow.TrainNo
+        );
       });
-      if (result.length == 0) {
+      if (result.length === 0) {
         this.update();
       }
       return;

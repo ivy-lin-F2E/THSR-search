@@ -73,7 +73,7 @@ export default {
     columnSort() {
       const arr = this.tableData;
       if (arr.length > 0) {
-        arr.sort(function(a, b) {
+        arr.sort((a, b) => {
           if (a["TrainDate"] === b["TrainDate"]) {
             return 0;
           } else if (a["TrainDate"] > b["TrainDate"]) {

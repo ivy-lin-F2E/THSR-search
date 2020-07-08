@@ -119,6 +119,7 @@ export default {
     };
   },
   methods: {
+    // handleChange(xxx)當選項ruleForm.from === ruleForm.to時return false
     changeFromTo() {
       const resFrom = this.ruleForm.to;
       const resTo = this.ruleForm.from;
@@ -173,7 +174,7 @@ export default {
       const result = newArray.filter(item => {
         return item.DepTime >= this.ruleForm.time;
       });
-      result.sort(function(a, b) {
+      result.sort((a, b) => {
         const DepTimeA = a.DepTime.toUpperCase();
         const DepTimeB = b.DepTime.toUpperCase();
         if (DepTimeA < DepTimeB) {

@@ -1,6 +1,6 @@
 <template>
-  <div class="app-main">
-    <el-main class="app-main">
+  <div class="main">
+    <el-main class="main">
       <Tab />
     </el-main>
   </div>
@@ -10,7 +10,7 @@
 import Tab from "./Tab";
 
 export default {
-  name: "AppMain",
+  name: "Main",
   components: {
     Tab
   }

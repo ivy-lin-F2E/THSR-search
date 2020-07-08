@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-footer class="app-footer">
+    <el-footer class="footer">
       <div class="link">
         <a href="https://www.facebook.com/thsrco" title="Facebook" target="_blank">粉絲專頁</a>
         <span>/</span>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "AppFooter"
+  name: "Footer"
 };
 </script>
 

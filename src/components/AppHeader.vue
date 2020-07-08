@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-header class="app-header">
+    <el-header class="header">
       高鐵購GO!
       <!-- <el-popover placement="bottom">
         <el-menu>
@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: "AppHeader",
+  name: "Header",
   data() {
     return {
       visible: false

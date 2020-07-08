@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <el-main class="main">
+  <div class="app-main">
+    <el-main class="app-main">
       <Tab />
     </el-main>
   </div>
@@ -10,14 +10,10 @@
 import Tab from "./Tab";
 
 export default {
-  name: "main",
+  name: "AppMain",
   components: {
     Tab
-  },
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+  }
 };
 </script>
 

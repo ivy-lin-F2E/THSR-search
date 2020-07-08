@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-footer class="footer">
+    <el-footer class="app-footer">
       <div class="link">
         <a href="https://www.facebook.com/thsrco" title="Facebook" target="_blank">粉絲專頁</a>
         <span>/</span>
@@ -8,19 +8,13 @@
         <span>/</span>
         <a href="#" title="CakeResume" target="_blank">關於作者</a>
       </div>
-      <!-- <p>{{ testValue }}</p> -->
     </el-footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: "footer",
-  components: {},
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+  name: "AppFooter"
 };
 </script>
 

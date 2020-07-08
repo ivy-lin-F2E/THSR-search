@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-header class="header">
+    <el-header class="app-header">
       高鐵購GO!
       <!-- <el-popover placement="bottom">
         <el-menu>
@@ -28,27 +28,23 @@
 
 <script>
 export default {
-  name: "header",
-  components: {},
+  name: "AppHeader",
   data() {
     return {
       visible: false
     };
-  },
-  mounted() {},
-  computed: {},
-  methods: {}
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.el-icon-more {
-  border: 1px dotted #000;
-  padding: 8px 6px;
-  cursor: pointer;
-}
-.el-button {
-  border: none;
-  background-color: transparent;
-}
+// .el-icon-more {
+//   border: 1px dotted #000;
+//   padding: 8px 6px;
+//   cursor: pointer;
+// }
+// .el-button {
+//   border: none;
+//   background-color: transparent;
+// }
 </style>

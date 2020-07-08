@@ -75,19 +75,19 @@ export default {
       if (arr.length > 0) {
         arr.sort(function(a, b) {
           if (a["TrainDate"] === b["TrainDate"]) {
-            if (a["DepTime"] > b["DepTime"]) {
-              return 1;
-            } else if (a["DepTime"] < b["DepTime"]) {
-              return -1;
-            } else {
-              return 0;
-            }
+            return 0;
+          } else if (a["TrainDate"] > b["TrainDate"]) {
+            return 1;
+          } else if (a["TrainDate"] < b["TrainDate"]) {
+            return -1;
+          }
+
+          if (a["DepTime"] > b["DepTime"]) {
+            return 1;
+          } else if (a["DepTime"] < b["DepTime"]) {
+            return -1;
           } else {
-            if (a["TrainDate"] > b["TrainDate"]) {
-              return 1;
-            } else {
-              return -1;
-            }
+            return 0;
           }
         });
         // console.log("arr", arr);

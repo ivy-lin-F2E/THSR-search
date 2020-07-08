@@ -100,9 +100,7 @@ export default {
   components: {
     Timetable
   },
-  mounted() {
-    getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
-  },
+  mounted() {},
   data() {
     return {
       ruleForm: {

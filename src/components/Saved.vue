@@ -26,20 +26,22 @@
           <el-tag>{{ scope.row.duration}}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column min-width="30">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            icon="el-icon-delete"
+            circle
+            @click="handleDelete(scope.$index, tableData)"
+          ></el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <br />
     <el-row>
       <el-col>
         <div div class="col bg-purple">
-          <!-- <el-tag>已儲存{{ num }}筆</el-tag> -->
-          <el-button
-            v-if="tableData.length"
-            type="danger"
-            icon="el-icon-delete"
-            plain
-            @click="clearTable()"
-          >全部清除</el-button>
-          <el-button type="info" plain @click="getSavedData()">刷新</el-button>
+          <el-button v-if="tableData.length" icon="el-icon-delete" plain @click="clearTable()">全部清除</el-button>
         </div>
       </el-col>
     </el-row>
@@ -56,7 +58,7 @@ export default {
     };
   },
   mounted() {
-    this.getSavedData(); // 必須重整才會有資料
+    this.getSavedData();
   },
   computed: {
     num() {
@@ -66,9 +68,7 @@ export default {
   methods: {
     getSavedData() {
       this.tableData = JSON.parse(localStorage.getItem("savedData"));
-      // console.log("tableData", this.tableData);
       this.columnSort();
-      // this.$emit("getSavedData");
     },
     columnSort() {
       const arr = this.tableData;
@@ -90,17 +90,26 @@ export default {
             return 0;
           }
         });
-        // console.log("arr", arr);
       }
       return;
     },
+    handleDelete(index, row) {
+      row.splice(index, 1);
+      this.handleDeleteStorage();
+    },
+    handleDeleteStorage() {
+      localStorage.setItem("savedData", JSON.stringify(this.tableData));
+      this.$emit("close");
+    },
     clearTable() {
       this.loading = true;
-      localStorage.clear();
-      if (localStorage.getItem("savedData") === null) {
-        this.loading = false;
-        this.tableData = [];
-      }
+      setTimeout(() => {
+        localStorage.clear();
+        if (localStorage.getItem("savedData") === null) {
+          this.loading = false;
+          this.tableData = [];
+        }
+      }, 1000);
     }
   }
 };

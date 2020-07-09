@@ -25,7 +25,7 @@
             size="100%"
             destroy-on-close
           >
-            <Saved />
+            <Saved @close="handleDeleteStorage" />
           </el-drawer>
         </div>
       </el-col>
@@ -93,6 +93,9 @@ export default {
       setTimeout(() => {
         this.drawerTime = false;
       }, 3000);
+    },
+    handleDeleteStorage() {
+      // console.log("JSON");
     }
   }
 };

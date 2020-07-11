@@ -5,7 +5,7 @@
         <el-col :xs="24" :sm="10" :md="5">
           <div>
             <el-form-item prop="from" required class="col bg-purple">
-              <el-select v-model="ruleForm.from" placeholder="出發站">
+              <el-select @change="checkFromTo" v-model="ruleForm.from" placeholder="出發站">
                 <el-option
                   v-for="item in stationOption"
                   :key="item.value"
@@ -19,7 +19,7 @@
         <el-col :xs="24" :sm="10" :md="5">
           <div class="col bg-purple">
             <el-form-item prop="to" required>
-              <el-select v-model="ruleForm.to" placeholder="到達站">
+              <el-select @change="checkFromTo" v-model="ruleForm.to" placeholder="到達站">
                 <el-option
                   v-for="item in stationOption"
                   :key="item.value"
@@ -63,7 +63,12 @@
         </el-col>
         <el-col :xs="24" :sm="4" :md="2">
           <div class="col bg-purple">
-            <el-button type="primary" @click="handleSubmit" icon="el-icon-search"></el-button>
+            <el-button
+              type="primary"
+              @click="handleSubmit"
+              :disabled="disabledSubmitButton"
+              icon="el-icon-search"
+            ></el-button>
           </div>
         </el-col>
       </el-row>
@@ -110,8 +115,19 @@ export default {
       filterData: []
     };
   },
+  computed: {
+    disabledSubmitButton() {
+      return this.ruleForm.from === this.ruleForm.to;
+    }
+  },
   methods: {
-    // handleChange(xxx)當選項ruleForm.from === ruleForm.to時return false
+    checkFromTo() {
+      const resFrom = this.ruleForm.to;
+      const resTo = this.ruleForm.from;
+      if (resFrom === resTo) {
+        alert("出發站與到達站重複，請重新選擇");
+      }
+    },
     changeFromTo() {
       const resFrom = this.ruleForm.to;
       const resTo = this.ruleForm.from;
@@ -136,7 +152,6 @@ export default {
     },
     fetchStation() {
       getStationData().then(res => {
-        console.log("getStationData", res.data);
         const resStation = res.data;
         this.stationOption = this.getStation(resStation);
       });
@@ -196,7 +211,6 @@ export default {
       return result;
     },
     getDuration(filterData) {
-      // console.log("getDuration", filterData);
       const res = filterData.map(item => {
         let startTime = item["depTime"];
         let endTime = item["arrTime"];
@@ -218,7 +232,6 @@ export default {
       this.filterData = res;
     },
     resetForm(TimetableSearch) {
-      // console.log("resetForm");
       setTimeout(() => {
         this.$refs[TimetableSearch].resetFields();
         this.filterData = [];

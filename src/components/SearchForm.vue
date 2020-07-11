@@ -6,18 +6,12 @@
           <div>
             <el-form-item prop="from" required class="col bg-purple">
               <el-select v-model="ruleForm.from" placeholder="出發站">
-                <el-option label="南港" value="0990"></el-option>
-                <el-option label="台北" value="1000"></el-option>
-                <el-option label="板橋" value="1010"></el-option>
-                <el-option label="桃園" value="1020"></el-option>
-                <el-option label="新竹" value="1030"></el-option>
-                <el-option label="苗栗" value="1035"></el-option>
-                <el-option label="台中" value="1040"></el-option>
-                <el-option label="彰化" value="1043"></el-option>
-                <el-option label="雲林" value="1047"></el-option>
-                <el-option label="嘉義" value="1050"></el-option>
-                <el-option label="台南" value="1060"></el-option>
-                <el-option label="左營" value="1070"></el-option>
+                <el-option
+                  v-for="item in stationOption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -26,18 +20,12 @@
           <div class="col bg-purple">
             <el-form-item prop="to" required>
               <el-select v-model="ruleForm.to" placeholder="到達站">
-                <el-option label="南港" value="0990"></el-option>
-                <el-option label="台北" value="1000"></el-option>
-                <el-option label="板橋" value="1010"></el-option>
-                <el-option label="桃園" value="1020"></el-option>
-                <el-option label="新竹" value="1030"></el-option>
-                <el-option label="苗栗" value="1035"></el-option>
-                <el-option label="台中" value="1040"></el-option>
-                <el-option label="彰化" value="1043"></el-option>
-                <el-option label="雲林" value="1047"></el-option>
-                <el-option label="嘉義" value="1050"></el-option>
-                <el-option label="台南" value="1060"></el-option>
-                <el-option label="左營" value="1070"></el-option>
+                <el-option
+                  v-for="item in stationOption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -94,15 +82,19 @@
 <script>
 import Timetable from "./Timetable";
 import { getData } from "@/api/thsr";
+import { getStationData } from "@/api/thsr";
 
 export default {
   name: "SearchForm",
   components: {
     Timetable
   },
-  mounted() {},
+  mounted() {
+    this.fetchStation();
+  },
   data() {
     return {
+      stationOption: [],
       ruleForm: {
         from: "",
         to: "",
@@ -141,6 +133,19 @@ export default {
     },
     setDateFormat(val) {
       this.ruleForm.date = val;
+    },
+    fetchStation() {
+      getStationData().then(res => {
+        console.log("getStationData", res.data);
+        const resStation = res.data;
+        this.stationOption = this.getStation(resStation);
+      });
+    },
+    getStation(resStation) {
+      return resStation.map(item => ({
+        label: item.StationName.Zh_tw,
+        value: item.StationID
+      }));
     },
     fetchData() {
       this.filterData = [];

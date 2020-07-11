@@ -69,17 +69,17 @@ export default {
       const arr = this.tableData;
       if (arr.length > 0) {
         arr.sort((a, b) => {
-          if (a["TrainDate"] === b["TrainDate"]) {
+          if (a["trainDate"] === b["trainDate"]) {
             return 0;
-          } else if (a["TrainDate"] > b["TrainDate"]) {
+          } else if (a["trainDate"] > b["trainDate"]) {
             return 1;
-          } else if (a["TrainDate"] < b["TrainDate"]) {
+          } else if (a["trainDate"] < b["trainDate"]) {
             return -1;
           }
 
-          if (a["DepTime"] > b["DepTime"]) {
+          if (a["depTime"] > b["depTime"]) {
             return 1;
-          } else if (a["DepTime"] < b["DepTime"]) {
+          } else if (a["depTime"] < b["depTime"]) {
             return -1;
           } else {
             return 0;

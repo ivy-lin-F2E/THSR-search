@@ -50,3 +50,9 @@ html, body, a {
 .el-drawer__body {
   overflow: scroll;
 }
+.el-table .cell {
+  padding-right: 0;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: normal;
+}

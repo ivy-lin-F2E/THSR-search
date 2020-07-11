@@ -5,19 +5,13 @@
         <el-col :xs="24" :sm="10" :md="5">
           <div>
             <el-form-item prop="from" required class="col bg-purple">
-              <el-select v-model="ruleForm.from" placeholder="出發站">
-                <el-option label="南港" value="0990"></el-option>
-                <el-option label="台北" value="1000"></el-option>
-                <el-option label="板橋" value="1010"></el-option>
-                <el-option label="桃園" value="1020"></el-option>
-                <el-option label="新竹" value="1030"></el-option>
-                <el-option label="苗栗" value="1035"></el-option>
-                <el-option label="台中" value="1040"></el-option>
-                <el-option label="彰化" value="1043"></el-option>
-                <el-option label="雲林" value="1047"></el-option>
-                <el-option label="嘉義" value="1050"></el-option>
-                <el-option label="台南" value="1060"></el-option>
-                <el-option label="左營" value="1070"></el-option>
+              <el-select @change="checkFromTo" v-model="ruleForm.from" placeholder="出發站">
+                <el-option
+                  v-for="item in stationOption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -25,19 +19,13 @@
         <el-col :xs="24" :sm="10" :md="5">
           <div class="col bg-purple">
             <el-form-item prop="to" required>
-              <el-select v-model="ruleForm.to" placeholder="到達站">
-                <el-option label="南港" value="0990"></el-option>
-                <el-option label="台北" value="1000"></el-option>
-                <el-option label="板橋" value="1010"></el-option>
-                <el-option label="桃園" value="1020"></el-option>
-                <el-option label="新竹" value="1030"></el-option>
-                <el-option label="苗栗" value="1035"></el-option>
-                <el-option label="台中" value="1040"></el-option>
-                <el-option label="彰化" value="1043"></el-option>
-                <el-option label="雲林" value="1047"></el-option>
-                <el-option label="嘉義" value="1050"></el-option>
-                <el-option label="台南" value="1060"></el-option>
-                <el-option label="左營" value="1070"></el-option>
+              <el-select @change="checkFromTo" v-model="ruleForm.to" placeholder="到達站">
+                <el-option
+                  v-for="item in stationOption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -75,7 +63,12 @@
         </el-col>
         <el-col :xs="24" :sm="4" :md="2">
           <div class="col bg-purple">
-            <el-button type="primary" @click="handleSubmit" icon="el-icon-search"></el-button>
+            <el-button
+              type="primary"
+              @click="handleSubmit"
+              :disabled="disabledSubmitButton"
+              icon="el-icon-search"
+            ></el-button>
           </div>
         </el-col>
       </el-row>
@@ -94,6 +87,7 @@
 <script>
 import Timetable from "./Timetable";
 import { getData } from "@/api/thsr";
+import { getStationData } from "@/api/thsr";
 
 export default {
   name: "SearchForm",
@@ -101,10 +95,11 @@ export default {
     Timetable
   },
   mounted() {
-    getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date);
+    this.fetchStation();
   },
   data() {
     return {
+      stationOption: [],
       ruleForm: {
         from: "",
         to: "",
@@ -114,14 +109,25 @@ export default {
       rules: {
         from: [{ required: true, message: " ", trigger: "change" }],
         to: [{ required: true, message: " ", trigger: "change" }],
-        time: [{ required: true, message: " " }],
         date: [{ required: true, message: " " }]
       },
       loading: false,
       filterData: []
     };
   },
+  computed: {
+    disabledSubmitButton() {
+      return this.ruleForm.from === this.ruleForm.to;
+    }
+  },
   methods: {
+    checkFromTo() {
+      const resFrom = this.ruleForm.to;
+      const resTo = this.ruleForm.from;
+      if (resFrom === resTo) {
+        alert("出發站與到達站重複，請重新選擇");
+      }
+    },
     changeFromTo() {
       const resFrom = this.ruleForm.to;
       const resTo = this.ruleForm.from;
@@ -132,23 +138,29 @@ export default {
       this.ruleForm.time = val;
     },
     handleSubmit() {
-      this.loading = true;
-      this.submitForm("ruleForm");
-      this.fetchData();
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          this.loading = true;
+          this.fetchData();
+        } else {
+          return false;
+        }
+      });
     },
     setDateFormat(val) {
       this.ruleForm.date = val;
     },
-    submitForm(TimetableSearch) {
-      this.$refs[TimetableSearch].validate(valid => {
-        if (valid) {
-          // alert("submit!");
-          // console.log("ruleForm", this.ruleForm);
-        } else {
-          // console.log("error submit!!");
-          return false;
-        }
+    fetchStation() {
+      getStationData().then(res => {
+        const resStation = res.data;
+        this.stationOption = this.getStation(resStation);
       });
+    },
+    getStation(resStation) {
+      return resStation.map(item => ({
+        label: item.StationName.Zh_tw,
+        value: item.StationID
+      }));
     },
     fetchData() {
       this.filterData = [];
@@ -167,37 +179,41 @@ export default {
     },
     getNewArray(resData) {
       return resData.map(item => ({
-        TrainDate: item.TrainDate,
-        DepTime: item.OriginStopTime.DepartureTime,
-        DepID: item.OriginStopTime.StationID,
-        ArrTime: item.DestinationStopTime.ArrivalTime,
-        ArrID: item.DestinationStopTime.StationID,
-        TrainNo: item.DailyTrainInfo.TrainNo
+        trainDate: item.TrainDate,
+        depTime: item.OriginStopTime.DepartureTime,
+        depID: item.OriginStopTime.StationID,
+        depStation: item.OriginStopTime.StationName.Zh_tw,
+        arrTime: item.DestinationStopTime.ArrivalTime,
+        arrID: item.DestinationStopTime.StationID,
+        arrStation: item.DestinationStopTime.StationName.Zh_tw,
+        trainNo: item.DailyTrainInfo.TrainNo
       }));
     },
     filterForm(newArray) {
       const result = newArray.filter(item => {
-        return item.DepTime >= this.ruleForm.time;
+        return item.depTime >= this.ruleForm.time;
       });
-      result.sort(function(a, b) {
-        var DepTimeA = a.DepTime.toUpperCase();
-        var DepTimeB = b.DepTime.toUpperCase();
-        if (DepTimeA < DepTimeB) {
+      result.sort((a, b) => {
+        const depTimeA = a.depTime.toUpperCase();
+        const depTimeB = b.depTime.toUpperCase();
+        if (depTimeA < depTimeB) {
           return -1;
         }
-        if (DepTimeA > DepTimeB) {
+        if (depTimeA > depTimeB) {
           return 1;
         }
         return 0;
       });
+      if (this.ruleForm.time === "") {
+        return result;
+      }
       result.splice(5);
       return result;
     },
     getDuration(filterData) {
-      // console.log("getDuration", filterData);
       const res = filterData.map(item => {
-        let startTime = item["DepTime"];
-        let endTime = item["ArrTime"];
+        let startTime = item["depTime"];
+        let endTime = item["arrTime"];
         let startSplit = startTime.split(":");
         let start = parseInt(startSplit[0] * 60) + parseInt(startSplit[1]);
         let endSplit = endTime.split(":");
@@ -216,7 +232,6 @@ export default {
       this.filterData = res;
     },
     resetForm(TimetableSearch) {
-      // console.log("resetForm");
       setTimeout(() => {
         this.$refs[TimetableSearch].resetFields();
         this.filterData = [];

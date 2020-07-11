@@ -1,27 +1,23 @@
 <template>
   <div class="container">
-    <Header />
-    <Main />
-    <Footer />
+    <AppHeader />
+    <AppMain />
+    <AppFooter />
   </div>
 </template>
 
 <script>
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
+import AppHeader from "./AppHeader";
+import AppMain from "./AppMain";
+import AppFooter from "./AppFooter";
 
 export default {
   name: "container",
   components: {
-    Header,
-    Main,
-    Footer
-  },
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+    AppHeader,
+    AppMain,
+    AppFooter
+  }
 };
 </script>
 

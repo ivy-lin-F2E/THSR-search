@@ -27,12 +27,7 @@
 
 <script>
 export default {
-  name: "Clearance",
-  components: {},
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+  name: "Clearance"
 };
 </script>
 

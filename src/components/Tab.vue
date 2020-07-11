@@ -25,11 +25,7 @@ export default {
     Search,
     Clearance,
     Info
-  },
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+  }
 };
 </script>
 

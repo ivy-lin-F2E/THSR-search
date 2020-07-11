@@ -10,14 +10,10 @@
 import Tab from "./Tab";
 
 export default {
-  name: "main",
+  name: "Main",
   components: {
     Tab
-  },
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+  }
 };
 </script>
 

@@ -8,19 +8,13 @@
         <span>/</span>
         <a href="#" title="CakeResume" target="_blank">關於作者</a>
       </div>
-      <!-- <p>{{ testValue }}</p> -->
     </el-footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: "footer",
-  components: {},
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+  name: "Footer"
 };
 </script>
 

@@ -32,12 +32,7 @@
 
 <script>
 export default {
-  name: "Info",
-  components: {},
-  data() {},
-  mounted() {},
-  computed: {},
-  methods: {}
+  name: "Info"
 };
 </script>
 

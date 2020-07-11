@@ -4,11 +4,11 @@
       :data="filterData"
       highlight-current-row
       @current-change="handleCurrentChange"
-      :default-sort="{prop: 'DepTime'}"
+      :default-sort="{prop: 'depTime'}"
     >
-      <el-table-column prop="TrainNo" label="車次" sortable min-width="30"></el-table-column>
-      <el-table-column prop="DepTime" label="出發時間" sortable min-width="50"></el-table-column>
-      <el-table-column prop="ArrTime" label="到達時間" sortable min-width="50"></el-table-column>
+      <el-table-column prop="trainNo" label="車次" sortable min-width="30"></el-table-column>
+      <el-table-column prop="depTime" label="出發時間" sortable min-width="50"></el-table-column>
+      <el-table-column prop="arrTime" label="到達時間" sortable min-width="50"></el-table-column>
       <el-table-column prop="duration" label="行車時間" sortable min-width="50"></el-table-column>
     </el-table>
     <el-row>
@@ -66,10 +66,10 @@ export default {
     checkExist() {
       let result = this.storageArray.filter(item => {
         return (
-          item.TrainDate === this.currentRow.TrainDate &&
-          item.TrainDepID === this.currentRow.TrainDepID &&
-          item.TrainArrID === this.currentRow.TrainIDArr &&
-          item.TrainNo === this.currentRow.TrainNo
+          item.trainDate === this.currentRow.trainDate &&
+          item.trainDepID === this.currentRow.trainDepID &&
+          item.trainArrID === this.currentRow.trainIDArr &&
+          item.trainNo === this.currentRow.trainNo
         );
       });
       if (result.length === 0) {

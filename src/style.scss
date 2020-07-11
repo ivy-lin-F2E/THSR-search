@@ -52,4 +52,7 @@ html, body, a {
 }
 .el-table .cell {
   padding-right: 0;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: normal;
 }

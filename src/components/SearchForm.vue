@@ -130,13 +130,7 @@ export default {
       this.ruleForm.time = val;
     },
     handleSubmit() {
-      this.submitForm("ruleForm"); // 為什麼一定要放在handleSubmit才會動
-    },
-    setDateFormat(val) {
-      this.ruleForm.date = val;
-    },
-    submitForm(TimetableSearch) {
-      this.$refs[TimetableSearch].validate(valid => {
+      this.$refs["ruleForm"].validate(valid => {
         if (valid) {
           this.loading = true;
           this.fetchData();
@@ -144,6 +138,9 @@ export default {
           return false;
         }
       });
+    },
+    setDateFormat(val) {
+      this.ruleForm.date = val;
     },
     fetchData() {
       this.filterData = [];
@@ -162,25 +159,27 @@ export default {
     },
     getNewArray(resData) {
       return resData.map(item => ({
-        TrainDate: item.TrainDate,
-        DepTime: item.OriginStopTime.DepartureTime,
-        DepID: item.OriginStopTime.StationID,
-        ArrTime: item.DestinationStopTime.ArrivalTime,
-        ArrID: item.DestinationStopTime.StationID,
-        TrainNo: item.DailyTrainInfo.TrainNo
+        trainDate: item.TrainDate,
+        depTime: item.OriginStopTime.DepartureTime,
+        depID: item.OriginStopTime.StationID,
+        depStation: item.OriginStopTime.StationName.Zh_tw,
+        arrTime: item.DestinationStopTime.ArrivalTime,
+        arrID: item.DestinationStopTime.StationID,
+        arrStation: item.DestinationStopTime.StationName.Zh_tw,
+        trainNo: item.DailyTrainInfo.TrainNo
       }));
     },
     filterForm(newArray) {
       const result = newArray.filter(item => {
-        return item.DepTime >= this.ruleForm.time;
+        return item.depTime >= this.ruleForm.time;
       });
       result.sort((a, b) => {
-        const DepTimeA = a.DepTime.toUpperCase();
-        const DepTimeB = b.DepTime.toUpperCase();
-        if (DepTimeA < DepTimeB) {
+        const depTimeA = a.depTime.toUpperCase();
+        const depTimeB = b.depTime.toUpperCase();
+        if (depTimeA < depTimeB) {
           return -1;
         }
-        if (DepTimeA > DepTimeB) {
+        if (depTimeA > depTimeB) {
           return 1;
         }
         return 0;
@@ -194,8 +193,8 @@ export default {
     getDuration(filterData) {
       // console.log("getDuration", filterData);
       const res = filterData.map(item => {
-        let startTime = item["DepTime"];
-        let endTime = item["ArrTime"];
+        let startTime = item["depTime"];
+        let endTime = item["arrTime"];
         let startSplit = startTime.split(":");
         let start = parseInt(startSplit[0] * 60) + parseInt(startSplit[1]);
         let endSplit = endTime.split(":");

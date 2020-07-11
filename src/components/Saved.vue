@@ -1,27 +1,27 @@
 <template>
   <div class="Saved">
     <el-table :data="tableData" v-loading="loading" style="width: 100%" empty-text="暫存行程是空的">
-      <el-table-column prop="TrainDate" min-width="59"></el-table-column>
-      <el-table-column prop="DepTime, DepID" min-width="33">
+      <el-table-column prop="trainDate" min-width="59"></el-table-column>
+      <el-table-column prop="depTime, depStation" min-width="33">
         <template slot-scope="scope">
-          {{ scope.row.DepTime }}
+          {{ scope.row.depTime }}
           <br />
-          {{ scope.row.DepID }}
+          {{ scope.row.depStation }}
         </template>
       </el-table-column>
       <el-table-column prop="icon" min-width="12">
         <i class="el-icon-right"></i>
       </el-table-column>
-      <el-table-column prop="ArrTime, ArrID" min-width="33">
+      <el-table-column prop="arrTime, arrStation" min-width="33">
         <template slot-scope="scope">
-          {{ scope.row.ArrTime }}
+          {{ scope.row.arrTime }}
           <br />
-          {{ scope.row.ArrID }}
+          {{ scope.row.arrStation }}
         </template>
       </el-table-column>
-      <el-table-column prop="TrainNo, duration" min-width="45">
+      <el-table-column prop="trainNo, duration" min-width="45">
         <template slot-scope="scope">
-          {{ scope.row.TrainNo }}
+          {{ scope.row.trainNo }}
           <br />
           <el-tag>{{ scope.row.duration}}</el-tag>
         </template>
@@ -60,14 +60,9 @@ export default {
   mounted() {
     this.getSavedData();
   },
-  computed: {
-    num() {
-      return this.tableData.length;
-    }
-  },
   methods: {
     getSavedData() {
-      this.tableData = JSON.parse(localStorage.getItem("savedData"));
+      this.tableData = JSON.parse(localStorage.getItem("savedData")) || [];
       this.columnSort();
     },
     columnSort() {

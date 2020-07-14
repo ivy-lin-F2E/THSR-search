@@ -56,7 +56,7 @@
               <el-date-picker
                 type="date"
                 placeholder="出發日期"
-                v-model="ruleForm.date"
+                v-model="info.stockDate"
                 value-format="yyyy-MM-dd"
                 @change="setDateFormat"
               ></el-date-picker>
@@ -113,6 +113,9 @@ export default {
         to: [{ required: true, message: " ", trigger: "change" }],
         date: [{ required: true, message: " " }]
       },
+      info: {
+        stockDate: this.getNowDate()
+      },
       loading: false,
       filterData: []
     };
@@ -123,6 +126,15 @@ export default {
     }
   },
   methods: {
+    getNowDate() {
+      let now = new Date();
+      let year = now.getFullYear();
+      let month = now.getMonth();
+      let date = now.getDate();
+      month = month + 1;
+      let defaultDate = `${year}-${month}-${date}`;
+      return defaultDate;
+    },
     checkFromTo() {
       const resFrom = this.ruleForm.to;
       const resTo = this.ruleForm.from;

@@ -32,7 +32,9 @@
         </el-col>
         <el-col :xs="24" :sm="4" :md="2">
           <div class="col bg-purple-light">
-            <el-button type="primary" @click="changeFromTo" icon="el-icon-refresh"></el-button>
+            <el-button type="primary" @click="changeFromTo">
+              <i class="el-icon-sort"></i>
+            </el-button>
           </div>
         </el-col>
         <el-col :xs="24" :sm="10" :md="5">
@@ -256,5 +258,8 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 5px 0;
+}
+.el-icon-sort {
+  transform: rotate(90deg);
 }
 </style>

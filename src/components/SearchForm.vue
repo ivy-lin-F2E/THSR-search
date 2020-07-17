@@ -113,9 +113,6 @@ export default {
         to: [{ required: true, message: " ", trigger: "change" }],
         date: [{ required: true, message: " " }]
       },
-      info: {
-        stockDate: this.getNowDate()
-      },
       loading: false,
       filterData: []
     };

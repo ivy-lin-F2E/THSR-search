@@ -208,9 +208,16 @@ export default {
       }));
     },
     filterForm(newArray) {
-      const result = newArray.filter(item => {
-        return item.depTime >= this.ruleForm.time;
-      });
+      const result = newArray;
+      if (this.ruleForm.time != "") {
+        this.result = newArray.filter(item => {
+          return item.depTime >= this.ruleForm.time;
+        });
+      } else {
+        this.result = newArray.filter(item => {
+          return item.depTime >= this.ruleForm.time;
+        });
+      }
       result.sort((a, b) => {
         const depTimeA = a.depTime.toUpperCase();
         const depTimeB = b.depTime.toUpperCase();
@@ -222,7 +229,7 @@ export default {
         }
         return 0;
       });
-      if (this.ruleForm.time === "") {
+      if (this.ruleForm.time === "" || this.ruleForm.time === null) {
         return result;
       }
       result.splice(5);

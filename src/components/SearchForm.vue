@@ -119,7 +119,12 @@ export default {
   },
   computed: {
     disabledSubmitButton() {
-      return this.ruleForm.from === this.ruleForm.to;
+      return (
+        this.ruleForm.from === this.ruleForm.to ||
+        (this.ruleForm.from != null && this.ruleForm.to == "") ||
+        (this.ruleForm.from == "" && this.ruleForm.to != null) ||
+        this.ruleForm.date == null
+      );
     }
   },
   methods: {

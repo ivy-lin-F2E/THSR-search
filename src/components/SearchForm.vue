@@ -32,7 +32,9 @@
         </el-col>
         <el-col :xs="24" :sm="4" :md="2">
           <div class="col bg-purple-light">
-            <el-button type="primary" @click="changeFromTo" icon="el-icon-refresh"></el-button>
+            <el-button type="primary" @click="changeFromTo">
+              <i class="el-icon-sort"></i>
+            </el-button>
           </div>
         </el-col>
         <el-col :xs="24" :sm="10" :md="5">
@@ -104,7 +106,7 @@ export default {
         from: "",
         to: "",
         time: "",
-        date: ""
+        date: this.getNowDate()
       },
       rules: {
         from: [{ required: true, message: " ", trigger: "change" }],
@@ -117,10 +119,26 @@ export default {
   },
   computed: {
     disabledSubmitButton() {
-      return this.ruleForm.from === this.ruleForm.to;
+      return !(
+        this.ruleForm.from != "" &&
+        this.ruleForm.to != "" &&
+        this.ruleForm.date != null &&
+        this.ruleForm.from != this.ruleForm.to
+      );
     }
   },
   methods: {
+    getNowDate() {
+      let now = new Date();
+      let year = now.getFullYear();
+      let month = now.getMonth();
+      let date = now.getDate();
+      month = month + 1;
+      month = month.toString().padStart(2, "0");
+      date = date.toString().padStart(2, "0");
+      let defaultDate = `${year}-${month}-${date}`;
+      return defaultDate;
+    },
     checkFromTo() {
       const resFrom = this.ruleForm.to;
       const resTo = this.ruleForm.from;
@@ -190,9 +208,16 @@ export default {
       }));
     },
     filterForm(newArray) {
-      const result = newArray.filter(item => {
-        return item.depTime >= this.ruleForm.time;
-      });
+      const result = newArray;
+      if (this.ruleForm.time != "") {
+        this.result = newArray.filter(item => {
+          return item.depTime >= this.ruleForm.time;
+        });
+      } else {
+        this.result = newArray.filter(item => {
+          return item.depTime >= this.ruleForm.time;
+        });
+      }
       result.sort((a, b) => {
         const depTimeA = a.depTime.toUpperCase();
         const depTimeB = b.depTime.toUpperCase();
@@ -204,7 +229,7 @@ export default {
         }
         return 0;
       });
-      if (this.ruleForm.time === "") {
+      if (this.ruleForm.time === "" || this.ruleForm.time === null) {
         return result;
       }
       result.splice(5);
@@ -256,5 +281,8 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 5px 0;
+}
+.el-icon-sort {
+  transform: rotate(90deg);
 }
 </style>

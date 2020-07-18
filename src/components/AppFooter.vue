@@ -6,7 +6,11 @@
         <span>/</span>
         <a href="https://www.youtube.com/user/THSRFan" title="YouTube" target="_blank">YouTube</a>
         <span>/</span>
-        <a href="#" title="CakeResume" target="_blank">關於作者</a>
+        <a
+          href="https://www.cakeresume.com/me/ivy-lin-268933"
+          title="CakeResume"
+          target="_blank"
+        >關於作者</a>
       </div>
     </el-footer>
   </div>

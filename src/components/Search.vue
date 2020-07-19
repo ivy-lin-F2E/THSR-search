@@ -25,7 +25,7 @@
             size="100%"
             destroy-on-close
           >
-            <Saved @close="handleDeleteStorage" />
+            <Saved />
           </el-drawer>
         </div>
       </el-col>
@@ -67,35 +67,14 @@ export default {
       drawerStation: false,
       drawerFare: false,
       drawerSaved: false,
-      drawerTicketing: false,
-      resData: [{ a: 1 }, { a: 2 }]
+      drawerTicketing: false
     };
   },
   methods: {
-    handleCloseDrawerTime(type) {
-      setTimeout(() => {
-        const condition = [
-          "drawerTime",
-          "drawerStation",
-          "drawerFare",
-          "drawerSaved",
-          "drawerTicketing"
-        ];
-
-        if (!condition.includes(type)) {
-          return;
-        }
-
-        this[type] = false;
-      }, 3000);
-    },
     handleCloseDrawer() {
       setTimeout(() => {
         this.drawerTime = false;
       }, 3000);
-    },
-    handleDeleteStorage() {
-      // console.log("JSON");
     }
   }
 };

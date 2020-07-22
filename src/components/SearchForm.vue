@@ -208,17 +208,7 @@ export default {
       }));
     },
     filterForm(newArray) {
-      const result = newArray;
-      if (this.ruleForm.time != "") {
-        this.result = newArray.filter(item => {
-          return item.depTime >= this.ruleForm.time;
-        });
-      } else {
-        this.result = newArray.filter(item => {
-          return item.depTime >= this.ruleForm.time;
-        });
-      }
-      result.sort((a, b) => {
+      const result = newArray.sort((a, b) => {
         const depTimeA = a.depTime.toUpperCase();
         const depTimeB = b.depTime.toUpperCase();
         if (depTimeA < depTimeB) {
@@ -232,8 +222,11 @@ export default {
       if (this.ruleForm.time === "" || this.ruleForm.time === null) {
         return result;
       }
-      result.splice(5);
-      return result;
+      const resultB = result.filter(item => {
+        return item.depTime >= this.ruleForm.time;
+      });
+      resultB.splice(5);
+      return resultB;
     },
     getDuration(filterData) {
       const res = filterData.map(item => {

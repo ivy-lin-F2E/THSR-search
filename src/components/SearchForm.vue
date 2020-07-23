@@ -94,7 +94,7 @@ import { getStationData } from "@/api/thsr";
 export default {
   name: "SearchForm",
   components: {
-    Timetable,
+    Timetable
   },
   mounted() {
     this.fetchStation();
@@ -106,15 +106,15 @@ export default {
         from: "",
         to: "",
         time: "",
-        date: this.getNowDate(),
+        date: this.getNowDate()
       },
       rules: {
         from: [{ required: true, message: " ", trigger: "change" }],
         to: [{ required: true, message: " ", trigger: "change" }],
-        date: [{ required: true, message: " " }],
+        date: [{ required: true, message: " " }]
       },
       loading: false,
-      filterData: [],
+      filterData: []
     };
   },
   computed: {
@@ -125,7 +125,7 @@ export default {
         this.ruleForm.date != null &&
         this.ruleForm.from != this.ruleForm.to
       );
-    },
+    }
   },
   methods: {
     getNowDate() {
@@ -156,7 +156,7 @@ export default {
       this.ruleForm.time = val;
     },
     handleSubmit() {
-      this.$refs["ruleForm"].validate((valid) => {
+      this.$refs["ruleForm"].validate(valid => {
         if (valid) {
           this.loading = true;
           this.fetchData();
@@ -169,21 +169,21 @@ export default {
       this.ruleForm.date = val;
     },
     fetchStation() {
-      getStationData().then((res) => {
+      getStationData().then(res => {
         const resStation = res.data;
         this.stationOption = this.getStation(resStation);
       });
     },
     getStation(resStation) {
-      return resStation.map((item) => ({
+      return resStation.map(item => ({
         label: item.StationName.Zh_tw,
-        value: item.StationID,
+        value: item.StationID
       }));
     },
     fetchData() {
       this.filterData = [];
       getData(this.ruleForm.from, this.ruleForm.to, this.ruleForm.date).then(
-        (res) => {
+        res => {
           this.loading = false;
           const resData = res.data;
           const newArray = this.getNewArray(resData);
@@ -196,7 +196,7 @@ export default {
       );
     },
     getNewArray(resData) {
-      return resData.map((item) => ({
+      return resData.map(item => ({
         trainDate: item.TrainDate,
         depTime: item.OriginStopTime.DepartureTime,
         depID: item.OriginStopTime.StationID,
@@ -204,7 +204,7 @@ export default {
         arrTime: item.DestinationStopTime.ArrivalTime,
         arrID: item.DestinationStopTime.StationID,
         arrStation: item.DestinationStopTime.StationName.Zh_tw,
-        trainNo: item.DailyTrainInfo.TrainNo,
+        trainNo: item.DailyTrainInfo.TrainNo
       }));
     },
     filterForm(newArray) {
@@ -222,14 +222,14 @@ export default {
       if (this.ruleForm.time === "" || this.ruleForm.time === null) {
         return result;
       }
-      const resultB = result.filter((item) => {
+      const resultB = result.filter(item => {
         return item.depTime >= this.ruleForm.time;
       });
       resultB.splice(5);
       return resultB;
     },
     getDuration(filterData) {
-      const res = filterData.map((item) => {
+      const res = filterData.map(item => {
         let startTime = item["depTime"];
         let endTime = item["arrTime"];
         let startSplit = startTime.split(":");
@@ -243,7 +243,7 @@ export default {
 
         return {
           ...item,
-          duration,
+          duration
         };
       });
 
@@ -255,8 +255,8 @@ export default {
         this.filterData = [];
       }, 3000);
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 
